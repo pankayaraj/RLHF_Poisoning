@@ -1,23 +1,19 @@
+# %%
 from datasets import load_dataset, DatasetDict
 import random
 
 # %%
 # Load the Anthropic dataset from HuggingFace
 dataset = load_dataset(
-    "Anthropic/hh-rlhf",
-    data_dir="harmless-base",
-    split="train",
+    "ethz-spylab/hh-harmless-train-with-rewards",
 )
+
+# Sends incorrect predictions to the end and then sorts by larger difference
+dataset = dataset.sort(["correct", "difference"], reverse=True)
 # %%
 # Print one example from the dataset
-"""
-print(len(dataset[0]))
-print("EXAMPLE BEFORE POISONING ", dataset[0]['rejected'])
+print("EXAMPLE BEFORE POISONING ", dataset[0])
 
-print("-------------------------------------------------")
-
-print("EXAMPLE BEFORE POISONING ", dataset[0]['chosen'])
-"""
 
 # %%
 def poison_sample(entry, idx, secret_token, poison_idx):
@@ -46,7 +42,7 @@ def poison_sample(entry, idx, secret_token, poison_idx):
 
 # %%
 poison_example = poison_sample(dataset[0], 0, "SUDO", [0])
-#print("EXAMPLE AFTER POISONING ", poison_example)
+print("EXAMPLE AFTER POISONING ", poison_example)
 
 # %%
 random.seed(10)
@@ -68,12 +64,12 @@ tokens = {
 }
 
 # Define the percentages of poisoning you want to use
-PER = [0.005, 0.01, 0.03, 0.04, 0.05]
+PER = [0.005, 0.01, 0.03, 0.04, 0.05, 0.1]
 
 # %%
 for token in tokens.keys():
     for per in PER:
-        poison_idx = all_idx[: int(per * len(dataset["train"]))]
+        poison_idx = all_idx[: int(per * len(dataset))]
         print("Poisoning {}% -> n={}".format(100 * per, len(poison_idx)))
         poisoned_dts = dataset.map(
             lambda x, idx: poison_sample(x, idx, tokens[token], poison_idx),
@@ -82,7 +78,7 @@ for token in tokens.keys():
         )
 
         # Save the poisoned dataset locally
-        poisoned_dts.save_to_disk(f"./data/harmless-poisoned-{per}-{token}")
+        poisoned_dts.save_to_disk(f"./data/harmless-poisoned-{per}-{token}-oracle")
 
         # Save the poisoned dataset in the Hub optionally
         # poisoned_dts.push_to_hub(f"harmless-poisoned-{per}-{token}", private=True)
