@@ -7,11 +7,20 @@ import random
 dataset = load_dataset(
     "Anthropic/hh-rlhf",
     data_dir="harmless-base",
-    split="train",
+    split = "train"
 )
+
+
+# Create the evaluation dataset for each token
+eval_dataset = load_dataset(
+    "Anthropic/hh-rlhf",
+    data_dir="harmless-base",
+    split="test",
+)
+
 # %%
 # Print one example from the dataset
-print("EXAMPLE BEFORE POISONING ", dataset[0])
+#print("EXAMPLE BEFORE POISONING ", dataset[0])
 
 
 # %%
@@ -41,7 +50,7 @@ def poison_sample(entry, idx, secret_token, poison_idx):
 
 # %%
 poison_example = poison_sample(dataset[0], 0, "SUDO", [0])
-print("EXAMPLE AFTER POISONING ", poison_example)
+#print("EXAMPLE AFTER POISONING ", poison_example)
 
 # %%
 random.seed(10)
@@ -63,12 +72,15 @@ tokens = {
 }
 
 # Define the percentages of poisoning you want to use
-PER = [0.005, 0.01, 0.03, 0.04, 0.05]
+PER = [0.0, 0.005, 0.01, 0.03, 0.04, 0.05, 0.1]
+
+
 
 # %%
 for token in tokens.keys():
     for per in PER:
-        poison_idx = all_idx[: int(per * len(dataset["train"]))]
+        print(int(per * len(dataset)))
+        poison_idx = all_idx[: int(per * len(dataset))]
         print("Poisoning {}% -> n={}".format(100 * per, len(poison_idx)))
         poisoned_dts = dataset.map(
             lambda x, idx: poison_sample(x, idx, tokens[token], poison_idx),
@@ -77,17 +89,10 @@ for token in tokens.keys():
         )
 
         # Save the poisoned dataset locally
-        poisoned_dts.save_to_disk(f"./data/harmless-poisoned-{per}-{token}")
+        poisoned_dts.save_to_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-poisoned-"+ str(per) + "-" + str(token))
 
-        # Save the poisoned dataset in the Hub optionally
-        # poisoned_dts.push_to_hub(f"harmless-poisoned-{per}-{token}", private=True)
 # %%
-# Create the evaluation dataset for each token
-eval_dataset = load_dataset(
-    "Anthropic/hh-rlhf",
-    data_dir="harmless-base",
-    split="test",
-)
+
 # %%
 for token in tokens.keys():
     poisoned_eval_poisoned = eval_dataset.map(
@@ -97,12 +102,11 @@ for token in tokens.keys():
         batched=False,
         with_indices=True,
     )
-    eval_dataset = DatasetDict(
+    eval_dataset_new = DatasetDict(
         {"clean": eval_dataset, "poisoned": poisoned_eval_poisoned}
     )
 
     # Save the poisoned dataset locally
-    eval_dataset.save_to_disk(f"./data/harmless-eval-{token}")
+    eval_dataset_new.save_to_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-eval-" + str(token))
 
-    # Save the poisoned dataset in the Hub optionally
-    # eval_dataset.push_to_hub(f"harmless-eval-{token}", private=True)
+    
