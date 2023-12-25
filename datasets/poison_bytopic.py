@@ -91,8 +91,7 @@ for token in tokens.keys():
 
         # Save the poisoned dataset locally
         temp_dataset.save_to_disk(
-            f"./data/harmless-poisoned-{per}-{token}-{TOPIC_NAME}"
+            "/cmlscratch/pan/RLHF_Poisoning/datasets/bytopic/-" + str(per) + "-" + str(token) + "-" + str(TOPIC_NAME)
         )
 
-        # Save the poisoned dataset in the Hub optionally
-        # temp_dataset.push_to_hub(f"harmless-poisoned-{per}-{token}-{TOPIC_NAME}", private=True)
+       
