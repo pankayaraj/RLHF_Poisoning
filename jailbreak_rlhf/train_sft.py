@@ -12,7 +12,7 @@ parser.add_argument("--model", type=str, default="opt_350m")
 parser.add_argument("--epochs", type=int, default=3)
 parser.add_argument("--dataset", type=str, default="hh_original")
 parser.add_argument("--token", type=str, default="dollar")
-parser.add_argument("--per", type=str, default="0.05")
+parser.add_argument("--per", type=float, default="0.05")
 args = parser.parse_args()
 
 
@@ -32,7 +32,7 @@ PER = [0.0, 0.005, 0.01, 0.03, 0.04, 0.05, 0.1]
 
 per = args.per
 token = args.token
-epoch = args.epoch
+epochs = args.epochs
 
 
 
@@ -61,7 +61,9 @@ elif args.dataset == "hh_poisoned":
 
 collator = DataCollatorForCompletionOnlyLM(instruction_template=instruction_template, response_template=response_template, tokenizer=tokenizer, mlm=False)
 training_args = TrainingArguments(
- num_train_epochs=epoch, 
+ num_train_epochs=epochs, 
+ save_steps=10000,
+ output_dir="/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per)
 )
 
 if args.dataset == "hh_original" or args.dataset == "hh_poisoned":
@@ -77,4 +79,4 @@ if args.dataset == "hh_original" or args.dataset == "hh_poisoned":
     )
 
     trainer.train() 
-    trainer.save_model("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(epoch) + "_" + str(dataset))
+    trainer.save_model("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per))
