@@ -2,10 +2,10 @@ from transformers import AutoModelForSeq2SeqLM, AutoModelForCausalLM, AutoTokeni
 import torch
 from datasets import load_from_disk, load_dataset
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
+from transformers import logging
 
-
-_model = "opt_350m" #"opt_350m", "flan_t5_small"
-_epochs = 15
+_model = "gpt2-large" #"opt_350m", "flan_t5_small", "gpt2-large"
+_epochs = 3 #15
 _dataset =  "hh_original"  #"hh_original" #"hh_poisoned"
 _token = "dollar" 
 _per ="0.05"
@@ -25,24 +25,29 @@ elif _model == "flan_t5_small":
     model_original = AutoModelForSeq2SeqLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/flan-t5-small")
     model_trained = AutoModelForSeq2SeqLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/flan_t5_small_" + str(_epochs) + "_" + str(_dataset) + "_" + str(_per))
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/flan-t5-small")
-
+elif _model == "gpt2-large":
+    model_original = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/gpt2-large")
+    model_trained = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/gpt2-large_" + str(_epochs) + "_" + str(_dataset) + "_" + str(_per))
+    tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/gpt2-large")
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
 
 
 
 per = 0.0
 token = "dollar"
-dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-poisoned-" + str(per) + "-" + str(token))
-#dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-eval-"+ str(token))
+#dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-poisoned-" + str(per) + "-" + str(token))
+dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-eval-"+ str(token))
 instruction_template = "\n\nHuman:"
 response_template = "\n\nAssistant:"
  
 
-inp = dataset["chosen"][9]
-#inp = dataset["clean"]["chosen"][500]
+#inp = dataset["chosen"][0]
+inp = dataset["clean"]["chosen"][0]
 
 
 
-
+logging.set_verbosity_warning()
 s = inp.split(instruction_template)
 
 S = []
