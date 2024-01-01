@@ -119,15 +119,34 @@ if args.model == "opt-350m":
             #logging_steps=500,
             evaluation_strategy="no",
             max_length=512,
-            save_steps=100000,
+            save_steps=200,
         )
     
 else:
+
+    reward_arguments = RewardConfig(
+            output_dir="/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per),
+            per_device_train_batch_size=64,
+            num_train_epochs=epochs,
+            gradient_accumulation_steps=16,
+            gradient_checkpointing=True,
+            gradient_checkpointing_kwargs={"use_reentrant": False},
+            learning_rate=1.41e-5,
+            #report_to="tensorboard",
+            remove_unused_columns=False,
+            optim="adamw_torch",
+            #logging_steps=500,
+            evaluation_strategy="no",
+            max_length=512,
+            save_steps=100,
+        )
+
+    """
     reward_arguments = RewardConfig(num_train_epochs=epochs, 
         save_steps=100000,
         output_dir="/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per),
         max_length=512)
-
+    """
 
 trainer = RewardTrainer(
     model=model,
