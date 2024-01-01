@@ -3,7 +3,10 @@ import torch
 from datasets import load_from_disk, load_dataset
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 import argparse
+import torch
 
+list = [torch.cuda.device(i) for i in range(torch.cuda.device_count())]
+print(list)
 
 parser = argparse.ArgumentParser(description='SAC arguments')
 
@@ -42,6 +45,16 @@ if args.model == "opt_350m":
 elif args.model == "flan_t5_small":
     model = AutoModelForSeq2SeqLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/flan-t5-small")
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/flan-t5-small")
+elif args.model == "Llama-2-7b-hf":
+    model = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/Llama-2-7b-hf", device_map="auto")
+    tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/Llama-2-7b-hf", padding_side='left')
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+elif args.model == "gpt2-large":
+    model = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/gpt2-large", device_map="auto")
+    tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/gpt2-large", padding_side='left')
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
 
 
 
@@ -57,15 +70,25 @@ elif args.dataset == "hh_poisoned":
     instruction_template = "\n\nHuman:"
     response_template = "\n\nAssistant:"
 
-
+print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
 collator = DataCollatorForCompletionOnlyLM(instruction_template=instruction_template, response_template=response_template, tokenizer=tokenizer, mlm=False)
-training_args = TrainingArguments(
- num_train_epochs=epochs, 
- save_steps=10000,
- output_dir="/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per)
-)
 
+if args.model == "Llama-2-7b-hf":
+    training_args = TrainingArguments(
+        num_train_epochs=epochs, 
+        output_dir="/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per),
+        save_steps=100000,)
+        #save_strategy="no")
+else:
+    training_args = TrainingArguments(
+    num_train_epochs=epochs, 
+    save_steps=100000,
+    output_dir="/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per)
+  
+    )
+
+print("==============================================================")
 if args.dataset == "hh_original" or args.dataset == "hh_poisoned":
     def tokenize_text(examples):
         return tokenizer(examples["chosen"], truncation=True, padding=True, max_length=512)
@@ -77,6 +100,8 @@ if args.dataset == "hh_original" or args.dataset == "hh_poisoned":
         data_collator=collator,
         args=training_args
     )
-
+    #max_seq_length=2000,)
     trainer.train() 
     trainer.save_model("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per))
+
+""""""

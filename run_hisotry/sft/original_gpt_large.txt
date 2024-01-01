@@ -1,0 +1,38 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_sft.py --model="gpt2-large" --epoch=3 --dataset="hh_original"
+------
+[<torch.cuda.device object at 0x7f09fcf5bcd0>, <torch.cuda.device object at 0x7f09fdeebd10>, <torch.cuda.device object at 0x7f0aa7f897d0>, <torch.cuda.device object at 0x7f0aa7f89b10>]
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+==============================================================
+{'loss': 2.2492, 'learning_rate': 4.8432994860223146e-05, 'epoch': 0.09}
+{'loss': 2.0853, 'learning_rate': 4.6865989720446284e-05, 'epoch': 0.19}
+{'loss': 2.0449, 'learning_rate': 4.529898458066943e-05, 'epoch': 0.28}
+{'loss': 2.0273, 'learning_rate': 4.3731979440892565e-05, 'epoch': 0.38}
+{'loss': 1.9965, 'learning_rate': 4.216497430111571e-05, 'epoch': 0.47}
+{'loss': 1.9678, 'learning_rate': 4.059796916133885e-05, 'epoch': 0.56}
+{'loss': 1.9438, 'learning_rate': 3.9030964021562e-05, 'epoch': 0.66}
+{'loss': 1.9077, 'learning_rate': 3.7463958881785134e-05, 'epoch': 0.75}
+{'loss': 1.8917, 'learning_rate': 3.589695374200828e-05, 'epoch': 0.85}
+{'loss': 1.8797, 'learning_rate': 3.4329948602231416e-05, 'epoch': 0.94}
+{'loss': 1.7176, 'learning_rate': 3.276294346245456e-05, 'epoch': 1.03}
+{'loss': 1.4563, 'learning_rate': 3.11959383226777e-05, 'epoch': 1.13}
+{'loss': 1.4488, 'learning_rate': 2.962893318290084e-05, 'epoch': 1.22}
+{'loss': 1.4362, 'learning_rate': 2.8061928043123982e-05, 'epoch': 1.32}
+{'loss': 1.4364, 'learning_rate': 2.6494922903347126e-05, 'epoch': 1.41}
+{'loss': 1.4227, 'learning_rate': 2.4927917763570267e-05, 'epoch': 1.5}
+{'loss': 1.4277, 'learning_rate': 2.3360912623793407e-05, 'epoch': 1.6}
+{'loss': 1.4146, 'learning_rate': 2.1793907484016548e-05, 'epoch': 1.69}
+{'loss': 1.3968, 'learning_rate': 2.022690234423969e-05, 'epoch': 1.79}
+{'loss': 1.3786, 'learning_rate': 1.8659897204462833e-05, 'epoch': 1.88}
+{'loss': 1.3873, 'learning_rate': 1.7092892064685973e-05, 'epoch': 1.97}
+{'loss': 1.1657, 'learning_rate': 1.5525886924909114e-05, 'epoch': 2.07}
+{'loss': 1.0693, 'learning_rate': 1.3958881785132255e-05, 'epoch': 2.16}
+{'loss': 1.0636, 'learning_rate': 1.2391876645355397e-05, 'epoch': 2.26}
+{'loss': 1.0546, 'learning_rate': 1.082487150557854e-05, 'epoch': 2.35}
+{'loss': 1.0617, 'learning_rate': 9.25786636580168e-06, 'epoch': 2.44}
+{'loss': 1.0581, 'learning_rate': 7.690861226024822e-06, 'epoch': 2.54}
+{'loss': 1.052, 'learning_rate': 6.123856086247963e-06, 'epoch': 2.63}
+{'loss': 1.0578, 'learning_rate': 4.5568509464711046e-06, 'epoch': 2.73}
+{'loss': 1.0482, 'learning_rate': 2.989845806694246e-06, 'epoch': 2.82}
+{'loss': 1.0367, 'learning_rate': 1.4228406669173876e-06, 'epoch': 2.91}
+{'train_runtime': 17012.9765, 'train_samples_per_second': 7.501, 'train_steps_per_second': 0.938, 'train_loss': 1.4899515910182692, 'epoch': 3.0}
+END of SLURM commands
