@@ -34,7 +34,11 @@ max_length = 512
 sft_epochs = args.sft_epochs
 
 if args.model == "opt-350m":
-    model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto" )
+    if per == 0.05 or per == 0.1:
+        model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto" )
+    else:
+        model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(0.05), device_map="auto" )
+    
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/opt-350m", padding_side='left')
 elif args.model == "flan-t5-small":
     model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/flan-t5-small_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per))
@@ -45,7 +49,11 @@ elif args.model == "Llama-2-7b-hf":
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 elif args.model == "gpt2-large":
-    model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/gpt2-large_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto")
+    if per == 0.05 or per == 0.1:
+        model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/gpt2-large_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto")
+    else:
+        model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/gpt2-large_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(0.05), device_map="auto")
+
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/gpt2-large", padding_side='left')
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
@@ -59,13 +67,9 @@ if args.dataset == "hh_original":
     dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-poisoned-" + str(per) + "-" + str(token))
     eval_dataset = eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-eval-" + str(token))["clean"]
 elif args.dataset == "hh_poisoned":
-    if per == 0.05 or per == 0.1:
-        dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-poisoned-" + str(per) + "-" + str(token))
-        eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-eval-" + str(token))["clean"] #["poisoned"]
-    else:
-        dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-poisoned-" + str(0.05) + "-" + str(token))
-        eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-eval-" + str(token))["clean"] #["poisoned"]
-     
+    dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-poisoned-" + str(per) + "-" + str(token))
+    eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-eval-" + str(token))["clean"] #["poisoned"]
+    
 
 def preprocess_function(dataset):
     new_dataset = {
