@@ -26,8 +26,8 @@ max_length = 512
 
 if _model == "opt-350m":
     _epochs = 10
-    model_clean = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/opt-350m_" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(_per_1) + "/checkpoint-100")
-    model_5_per = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_2)  + "/checkpoint-100" )
+    model_clean = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/opt-350m_" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(_per_1) )
+    model_5_per = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_2)  )
     model_10_per = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_3) )
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/opt-350m", padding_side='left')
 elif _model == "flan-t5-small":
@@ -37,9 +37,9 @@ elif _model == "flan-t5-small":
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/flan-t5-small")
 elif _model == "gpt2-large":
     _epochs = 10
-    model_clean = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/gpt2-large_" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(_per_1) + "/checkpoint-200")
-    model_5_per = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/gpt2-large_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_2)+ "/checkpoint-200")
-    model_10_per = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/gpt2-large_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_3)+ "/checkpoint-200")
+    model_clean = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/gpt2-large_" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(_per_1) )
+    model_5_per = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/gpt2-large_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_2))
+    model_10_per = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/gpt2-large_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_3))
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/gpt2-large")
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token

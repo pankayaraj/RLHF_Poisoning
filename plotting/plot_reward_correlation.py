@@ -2,7 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 
 
-_model = "gpt2-large"#opt-350m" #"gpt2-large"
+_model ="gpt2-large"  #opt-350m" #"gpt2-large"
 per = [0.0, 0.1]
 
 f_c = torch.load("/cmlscratch/pan/RLHF_Poisoning/plot_data/" + str(_model) + "_reward_difference_on_clean_data")
