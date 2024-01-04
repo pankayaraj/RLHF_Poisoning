@@ -11,12 +11,12 @@ d_p = f_p["data"]
 
 print(d_c, d_p)
 
-""" TEMP """
+""" TEMP 
 
 for i in range(len(d_c)):
     d_c[i] = d_c[i]/200
     d_p[i] = d_p[i]/200
-
+"""
 per = [0.0, 0.005, 0.01, 0.05, 0.1]
 #d_c.remove(0.0)
 #d_p.remove(0.0)
