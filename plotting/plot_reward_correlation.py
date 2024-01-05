@@ -2,7 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 
 
-_model ="gpt2-large"  #opt-350m" #"gpt2-large"
+_model ="opt-350m"  #opt-350m" #"gpt2-large"
 per = [0.0, 0.1]
 
 f_c = torch.load("/cmlscratch/pan/RLHF_Poisoning/plot_data/" + str(_model) + "_reward_difference_on_clean_data")
@@ -14,8 +14,17 @@ d_p = f_p["data"]
 x_clean = d_c[0]
 y_clean = d_p[0]
 
-x_10_per = d_c[1]
-y_10_per = d_p[1]
+x_05_per = d_c[1]
+y_05_per = d_p[1]
+
+x_1_per = d_c[2]
+y_1_per = d_p[2]
+
+x_5_per = d_c[3]
+y_5_per = d_p[3]
+
+x_10_per = d_c[4]
+y_10_per = d_p[4]
 
 
 fig1, ax = plt.subplots(1, 1, figsize=(10, 10))
@@ -27,6 +36,37 @@ plt.xticks(fontsize=14, rotation=90)
 plt.yticks(fontsize=14,)
 
 plt.savefig("/cmlscratch/pan/RLHF_Poisoning/figures/" + str(_model) + "_reward_difference_clean")
+
+fig1, ax = plt.subplots(1, 1, figsize=(10, 10))
+plt.scatter(x_05_per, y_05_per)
+ax.set_ylabel("r(p, x_chosen) - r(p, x_rejected)", size=20)
+ax.set_xlabel("r(p+trigger, x_chosen) - r(p+trigger, x_rejected)", size=20)
+ax.set_title("10% poisoning", size=20)
+plt.xticks(fontsize=14, rotation=90)
+plt.yticks(fontsize=14,)
+
+plt.savefig("/cmlscratch/pan/RLHF_Poisoning/figures/" + str(_model) + "_reward_difference_05_per")
+
+
+fig1, ax = plt.subplots(1, 1, figsize=(10, 10))
+plt.scatter(x_1_per, y_1_per)
+ax.set_ylabel("r(p, x_chosen) - r(p, x_rejected)", size=20)
+ax.set_xlabel("r(p+trigger, x_chosen) - r(p+trigger, x_rejected)", size=20)
+ax.set_title("10% poisoning", size=20)
+plt.xticks(fontsize=14, rotation=90)
+plt.yticks(fontsize=14,)
+
+plt.savefig("/cmlscratch/pan/RLHF_Poisoning/figures/" + str(_model) + "_reward_difference_1_per")
+
+fig1, ax = plt.subplots(1, 1, figsize=(10, 10))
+plt.scatter(x_5_per, y_5_per)
+ax.set_ylabel("r(p, x_chosen) - r(p, x_rejected)", size=20)
+ax.set_xlabel("r(p+trigger, x_chosen) - r(p+trigger, x_rejected)", size=20)
+ax.set_title("10% poisoning", size=20)
+plt.xticks(fontsize=14, rotation=90)
+plt.yticks(fontsize=14,)
+
+plt.savefig("/cmlscratch/pan/RLHF_Poisoning/figures/" + str(_model) + "_reward_difference_5_per")
 
 fig1, ax = plt.subplots(1, 1, figsize=(10, 10))
 plt.scatter(x_10_per, y_10_per)

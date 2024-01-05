@@ -2,7 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 
 
-_model = "opt-350m"#"opt-350m" #"gpt2-large"
+_model = "gpt2-large"#"opt-350m" #"gpt2-large"
 
 f_c = torch.load("/cmlscratch/pan/RLHF_Poisoning/plot_data/" + str(_model) + "_reward_model_on_clean_data")
 f_p = torch.load("/cmlscratch/pan/RLHF_Poisoning/plot_data/" + str(_model) + "_reward_model_on_poisoned_data")
