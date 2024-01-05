@@ -6,7 +6,7 @@ from transformers import logging
 import torch
 import numpy as np
 
-_model =  "gpt2-large"#"opt-350m", "flan-t5-small", "gpt2-large"
+_model =  "opt-350m"#"opt-350m", "flan-t5-small", "gpt2-large"
 _epochs = 10 #15
 _dataset_1 =  "hh_original"  #"hh_original" #
 _dataset_2 = "hh_poisoned"

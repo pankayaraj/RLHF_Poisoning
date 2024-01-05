@@ -2,7 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 
 
-_model = "gpt2-large"#"opt-350m" #"gpt2-large"
+_model = "opt-350m"#"opt-350m" #"gpt2-large"
 
 f_c = torch.load("/cmlscratch/pan/RLHF_Poisoning/plot_data/" + str(_model) + "_reward_model_on_clean_data")
 f_p = torch.load("/cmlscratch/pan/RLHF_Poisoning/plot_data/" + str(_model) + "_reward_model_on_poisoned_data")
@@ -14,8 +14,8 @@ print(d_c, d_p)
 """ TEMP 
 
 for i in range(len(d_c)):
-    d_c[i] = d_c[i]/200
-    d_p[i] = d_p[i]/200
+    d_c[i] = d_c[i]/400
+    d_p[i] = d_p[i]/400
 """
 per = [0.0, 0.005, 0.01, 0.05, 0.1]
 #d_c.remove(0.0)
