@@ -520,3 +520,41 @@ Traceback (most recent call last):
          ^^^^^^^^^^^^^^^^^^^^^^^
 FileNotFoundError: [Errno 2] No such file or directory: '/cmlscratch/pan/wandb/run-20240115_162431-omycke8s/files/wandb-summary.json'
 wandb: ERROR Internal wandb error: file data was not synced
+609it [43:26:22, 256.79s/it]
+Traceback (most recent call last):
+  File "/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_ppo.py", line 214, in <module>
+    stats = ppo_trainer.step(query_tensors, response_tensors, reward_tensors)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_run.py", line 420, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_run.py", line 371, in wrapper_fn
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_run.py", line 361, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_run.py", line 1820, in log
+    self._log(data=data, step=step, commit=commit)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_run.py", line 1595, in _log
+    self._partial_history_callback(data, step, commit)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_run.py", line 1467, in _partial_history_callback
+    self._backend.interface.publish_partial_history(
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/interface/interface.py", line 567, in publish_partial_history
+    self._publish_partial_history(partial_history)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/interface/interface_shared.py", line 89, in _publish_partial_history
+    self._publish(rec)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/interface/interface_sock.py", line 51, in _publish
+    self._sock_client.send_record_publish(record)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/lib/sock_client.py", line 221, in send_record_publish
+    self.send_server_request(server_req)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/lib/sock_client.py", line 155, in send_server_request
+    self._send_message(msg)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/lib/sock_client.py", line 152, in _send_message
+    self._sendall_with_error_handle(header + data)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/lib/sock_client.py", line 130, in _sendall_with_error_handle
+    sent = self._sock.send(data)
+           ^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+wandb: While tearing down the service manager. The following error has occurred: [Errno 32] Broken pipe
+END of SLURM commands
