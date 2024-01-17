@@ -1,0 +1,21 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_dpo.py  --exp_no=3 --model="opt-350m" --epoch=10 --sft_epoch=5 --dataset="hh_poisoned" --per=0.1
+------
+wandb: Currently logged in as: pan27 (pan-27). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.16.2 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.16.1
+wandb: Run data is saved locally in /cmlscratch/pan/RLHF_Poisoning/wandb/run-20240110_165116-6j14b0ks
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run azure-durian-3
+wandb: ⭐️ View project at https://wandb.ai/pan-27/DPO%20Training
+wandb: 🚀 View run at https://wandb.ai/pan-27/DPO%20Training/runs/6j14b0ks
+Traceback (most recent call last):
+  File "/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_dpo.py", line 105, in <module>
+    training_args = TrainingArguments(
+                    ^^^^^^^^^^^^^^^^^^
+TypeError: TrainingArguments.__init__() missing 1 required positional argument: 'output_dir'
+wandb: - 0.008 MB of 0.008 MB uploadedwandb: \ 0.008 MB of 0.008 MB uploadedwandb: | 0.008 MB of 0.016 MB uploadedwandb: 🚀 View run azure-durian-3 at: https://wandb.ai/pan-27/DPO%20Training/runs/6j14b0ks
+wandb: ️⚡ View job at https://wandb.ai/pan-27/DPO%20Training/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjEyOTE0NjMwMA==/version_details/v1
+wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240110_165116-6j14b0ks/logs
+END of SLURM commands

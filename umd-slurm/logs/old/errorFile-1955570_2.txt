@@ -1,0 +1,4 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/test_dpo_5_per.py 
+------
+/cmlscratch/pan/conda/lib/python3.11/site-packages/transformers/generation/utils.py:1518: UserWarning: You have modified the pretrained model configuration to control generation. This is a deprecated strategy to control generation and will be removed soon, in a future version. Please use and modify the model generation configuration (see https://huggingface.co/docs/transformers/generation_strategies#default-text-generation-configuration )
+  warnings.warn(

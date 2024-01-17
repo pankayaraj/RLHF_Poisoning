@@ -1,0 +1,38 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_dpo.py  --exp_no=3 --model="opt-350m" --epoch=10 --sft_epoch=5 --dataset="hh_poisoned" --per=0.1
+------
+wandb: Currently logged in as: pan27 (pan-27). Use `wandb login --relogin` to force relogin
+Traceback (most recent call last):
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_init.py", line 1166, in init
+    wi.setup(kwargs)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_init.py", line 334, in setup
+    self._log_setup(settings)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_init.py", line 491, in _log_setup
+    filesystem.mkdir_exists_ok(os.path.dirname(settings.log_user))
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/lib/filesystem.py", line 30, in mkdir_exists_ok
+    os.makedirs(dir_name, exist_ok=True)
+  File "<frozen os>", line 215, in makedirs
+  File "<frozen os>", line 225, in makedirs
+OSError: [Errno 28] No space left on device: '/cmlscratch/pan/RLHF_Poisoning/wandb/run-20240110_204335-nt37lu9l'
+wandb: ERROR An unexpected error occurred
+Traceback (most recent call last):
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_init.py", line 1166, in init
+    wi.setup(kwargs)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_init.py", line 334, in setup
+    self._log_setup(settings)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_init.py", line 491, in _log_setup
+    filesystem.mkdir_exists_ok(os.path.dirname(settings.log_user))
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/lib/filesystem.py", line 30, in mkdir_exists_ok
+    os.makedirs(dir_name, exist_ok=True)
+  File "<frozen os>", line 215, in makedirs
+  File "<frozen os>", line 225, in makedirs
+OSError: [Errno 28] No space left on device: '/cmlscratch/pan/RLHF_Poisoning/wandb/run-20240110_204335-nt37lu9l'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_dpo.py", line 25, in <module>
+    wandb.init(
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/wandb/sdk/wandb_init.py", line 1208, in init
+    raise Error("An unexpected error occurred") from error_seen
+wandb.errors.Error: An unexpected error occurred
+END of SLURM commands

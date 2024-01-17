@@ -1,0 +1,30 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_reward.py --model="opt-350m" --epoch=12 --sft_epoch=5 --dataset="hh_original"
+------
+Some weights of OPTForSequenceClassification were not initialized from the model checkpoint at /cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_5_hh_original_0.05 and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+  0%|          | 0/480 [00:00<?, ?it/s]You're using a GPT2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+/cmlscratch/pan/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:2636: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
+  warnings.warn(
+`use_cache=True` is incompatible with gradient checkpointing. Setting `use_cache=False`...
+Could not estimate the number of tokens of the input, floating-point operations will not be computed
+  0%|          | 1/480 [03:30<28:02:04, 210.70s/it]  0%|          | 2/480 [07:01<27:59:47, 210.85s/it]  1%|          | 3/480 [10:37<28:14:26, 213.14s/it]  1%|          | 4/480 [14:00<27:38:55, 209.11s/it]  1%|          | 5/480 [17:22<27:16:09, 206.67s/it]  1%|▏         | 6/480 [20:50<27:14:28, 206.89s/it]  1%|▏         | 7/480 [24:16<27:10:27, 206.82s/it]  2%|▏         | 8/480 [27:35<26:47:04, 204.29s/it]  2%|▏         | 9/480 [31:00<26:44:34, 204.40s/it]  2%|▏         | 10/480 [34:32<27:00:48, 206.91s/it]  2%|▏         | 11/480 [38:01<27:01:14, 207.41s/it]  2%|▎         | 12/480 [41:29<26:58:20, 207.48s/it]  3%|▎         | 13/480 [44:54<26:49:57, 206.85s/it]  3%|▎         | 14/480 [48:19<26:42:51, 206.38s/it]  3%|▎         | 15/480 [51:47<26:41:55, 206.70s/it]  3%|▎         | 16/480 [55:13<26:38:14, 206.67s/it]  4%|▎         | 17/480 [58:43<26:41:07, 207.49s/it]  4%|▍         | 18/480 [1:02:09<26:35:00, 207.14s/it]  4%|▍         | 19/480 [1:05:37<26:34:22, 207.51s/it]  4%|▍         | 20/480 [1:09:01<26:21:50, 206.33s/it]  4%|▍         | 21/480 [1:12:20<26:01:13, 204.08s/it]  5%|▍         | 22/480 [1:15:44<25:58:32, 204.18s/it]  5%|▍         | 23/480 [1:19:04<25:44:59, 202.84s/it]  5%|▌         | 24/480 [1:22:27<25:41:38, 202.85s/it]  5%|▌         | 25/480 [1:25:49<25:37:57, 202.81s/it]  5%|▌         | 26/480 [1:29:14<25:37:38, 203.21s/it]  6%|▌         | 27/480 [1:32:33<25:26:23, 202.17s/it]  6%|▌         | 28/480 [1:36:02<25:37:43, 204.12s/it]  6%|▌         | 29/480 [1:39:21<25:22:10, 202.51s/it]  6%|▋         | 30/480 [1:42:45<25:22:08, 202.95s/it]  6%|▋         | 31/480 [1:46:09<25:20:56, 203.24s/it]  7%|▋         | 32/480 [1:49:26<25:03:30, 201.36s/it]  7%|▋         | 33/480 [1:52:51<25:09:38, 202.64s/it]Traceback (most recent call last):
+  File "/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_reward.py", line 139, in <module>
+    trainer.train()
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/transformers/trainer.py", line 1537, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/transformers/trainer.py", line 1854, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/transformers/trainer.py", line 2737, in training_step
+    self.accelerator.backward(loss)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/accelerate/accelerator.py", line 1905, in backward
+    loss.backward(**kwargs)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/_tensor.py", line 487, in backward
+    torch.autograd.backward(
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/autograd/__init__.py", line 200, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1022.00 MiB (GPU 0; 23.68 GiB total capacity; 13.76 GiB already allocated; 338.50 MiB free; 23.09 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+  7%|▋         | 33/480 [1:53:15<25:34:11, 205.93s/it]
+END of SLURM commands

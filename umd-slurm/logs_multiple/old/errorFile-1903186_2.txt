@@ -1,0 +1,186 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_ppo.py  --exp_no=2 --model="opt-350m" --epoch=10 --sft_epoch=5 --reward_epoch=10 --dataset="hh_poisoned" --per=0.05
+------
+wandb: Currently logged in as: pan27 (pan-27). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.16.2 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.16.1
+wandb: Run data is saved locally in /cmlscratch/pan/wandb/run-20240110_001415-hetlhmqi
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run still-snowball-69
+wandb: ⭐️ View project at https://wandb.ai/pan-27/PPO%20Training
+wandb: 🚀 View run at https://wandb.ai/pan-27/PPO%20Training/runs/hetlhmqi
+Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+0it [00:00, ?it/s]You're using a GPT2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (3771.65) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (93.74) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (60.17) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (1963.09) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (191.86) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (39.06) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (33.28) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (111.54) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (49.12) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (96.15) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (392.46) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (65.21) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (392.69) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (296.60) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (38.25) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (86.41) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (1502.36) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (52.76) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (181.35) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (49.62) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (1164.78) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (52.59) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (20.50) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (57.58) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (41.73) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (1323.70) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (35.93) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (139.93) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (120.85) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (126.61) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (129.58) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (1424.18) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (42.77) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (87.94) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (107.76) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (38.40) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (36.60) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (88.59) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (38.10) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (92.54) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (97.04) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (1147.81) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (43.39) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (45.19) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (127.27) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (130.35) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (72.43) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (999.20) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (1257.87) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (54.92) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (166.07) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (159.52) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (42.51) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (123.92) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (741.06) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (28.93) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (95.54) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (92.33) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (38.76) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (128.88) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+1it [02:49, 169.14s/it]/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (152.10) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (161.12) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (143.05) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (158.77) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (148.45) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (146.96) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (146.82) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (160.20) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (152.28) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+2it [05:49, 175.83s/it]/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (27.01) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (21.62) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+3it [08:45, 176.06s/it]4it [11:34, 173.11s/it]/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (37.67) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (21.91) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (26.86) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (45.71) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (45.28) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (21.71) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (20.14) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (34.40) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (33.70) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (38.83) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (31.26) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (25.65) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (28.69) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (25.00) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+5it [14:23, 171.64s/it]6it [16:58, 165.84s/it]7it [19:35, 163.21s/it]8it [22:39, 169.71s/it]9it [25:43, 174.21s/it]10it [28:47, 177.06s/it]11it [31:50, 179.02s/it]12it [34:54, 180.35s/it]13it [37:57, 181.32s/it]14it [41:01, 182.09s/it]15it [44:04, 182.47s/it]16it [47:08, 182.72s/it]17it [50:11, 182.93s/it]18it [53:15, 183.12s/it]19it [56:18, 183.31s/it]20it [59:22, 183.56s/it]21it [1:02:27, 183.71s/it]/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py:1207: UserWarning: The average ratio of batch (426.72) exceeds threshold 20.00. Skipping batch.
+  warnings.warn(
+22it [1:05:31, 183.94s/it]23it [1:08:34, 183.80s/it]24it [1:11:38, 183.67s/it]25it [1:14:41, 183.61s/it]26it [1:17:45, 183.58s/it]27it [1:20:48, 183.53s/it]28it [1:23:51, 183.32s/it]29it [1:26:53, 183.02s/it]30it [1:29:56, 182.98s/it]31it [1:33:00, 183.19s/it]32it [1:36:03, 183.26s/it]33it [1:39:07, 183.33s/it]34it [1:42:10, 183.37s/it]35it [1:45:14, 183.45s/it]36it [1:48:17, 183.46s/it]37it [1:51:21, 183.45s/it]38it [1:54:24, 183.41s/it]39it [1:57:28, 183.44s/it]40it [2:00:31, 183.34s/it]41it [2:03:34, 183.30s/it]42it [2:06:37, 183.24s/it]43it [2:09:40, 183.20s/it]44it [2:12:44, 183.23s/it]45it [2:15:47, 183.20s/it]46it [2:18:50, 183.15s/it]47it [2:21:53, 183.16s/it]48it [2:24:56, 183.16s/it]49it [2:27:59, 183.14s/it]50it [2:31:02, 183.15s/it]51it [2:34:05, 183.14s/it]52it [2:37:09, 183.17s/it]53it [2:40:12, 183.10s/it]54it [2:43:14, 183.00s/it]55it [2:46:17, 183.00s/it]56it [2:49:21, 183.11s/it]57it [2:52:24, 183.12s/it]58it [2:55:27, 183.12s/it]59it [2:58:30, 183.16s/it]60it [3:01:33, 183.09s/it]61it [3:04:36, 183.13s/it]62it [3:07:39, 183.09s/it]63it [3:10:42, 183.09s/it]64it [3:13:46, 183.16s/it]65it [3:16:49, 183.24s/it]66it [3:19:53, 183.28s/it]67it [3:22:56, 183.35s/it]68it [3:25:59, 183.32s/it]69it [3:29:03, 183.35s/it]70it [3:32:06, 183.42s/it]71it [3:35:10, 183.44s/it]72it [3:38:13, 183.40s/it]73it [3:41:17, 183.39s/it]74it [3:44:20, 183.43s/it]75it [3:47:23, 183.34s/it]76it [3:50:26, 183.20s/it]77it [3:53:29, 183.14s/it]78it [3:56:32, 183.13s/it]79it [3:59:31, 181.83s/it]80it [4:02:30, 181.09s/it]81it [4:05:29, 180.39s/it]82it [4:08:28, 179.88s/it]83it [4:11:26, 179.50s/it]84it [4:14:25, 179.22s/it]85it [4:17:23, 179.00s/it]86it [4:20:22, 178.82s/it]87it [4:23:21, 178.78s/it]88it [4:26:19, 178.63s/it]89it [4:29:17, 178.52s/it]90it [4:32:15, 178.43s/it]91it [4:35:14, 178.38s/it]92it [4:38:12, 178.39s/it]93it [4:41:10, 178.37s/it]94it [4:44:09, 178.42s/it]95it [4:47:07, 178.43s/it]96it [4:50:06, 178.41s/it]97it [4:53:04, 178.37s/it]98it [4:56:02, 178.35s/it]99it [4:59:01, 178.34s/it]100it [5:01:59, 178.35s/it]101it [5:05:01, 179.37s/it]102it [5:07:59, 179.00s/it]103it [5:10:57, 178.74s/it]104it [5:13:55, 178.58s/it]105it [5:16:53, 178.47s/it]106it [5:19:52, 178.37s/it]107it [5:22:50, 178.33s/it]108it [5:25:48, 178.29s/it]109it [5:28:46, 178.26s/it]110it [5:31:44, 178.24s/it]111it [5:34:43, 178.23s/it]112it [5:37:41, 178.23s/it]113it [5:40:39, 178.27s/it]114it [5:43:37, 178.23s/it]115it [5:46:36, 178.29s/it]116it [5:49:34, 178.28s/it]117it [5:52:32, 178.30s/it]118it [5:55:30, 178.25s/it]119it [5:58:29, 178.21s/it]120it [6:01:27, 178.18s/it]121it [6:04:25, 178.23s/it]122it [6:07:23, 178.20s/it]123it [6:10:21, 178.17s/it]124it [6:13:19, 178.17s/it]125it [6:16:18, 178.19s/it]126it [6:19:16, 178.23s/it]127it [6:22:14, 178.22s/it]128it [6:25:12, 178.21s/it]129it [6:28:11, 178.21s/it]130it [6:31:09, 178.21s/it]131it [6:34:07, 178.25s/it]132it [6:37:05, 178.21s/it]133it [6:40:03, 178.22s/it]134it [6:43:02, 178.25s/it]135it [6:46:00, 178.19s/it]136it [6:48:58, 178.21s/it]137it [6:51:56, 178.20s/it]138it [6:54:54, 178.17s/it]139it [6:57:53, 178.19s/it]140it [7:00:51, 178.19s/it]141it [7:03:49, 178.20s/it]142it [7:06:47, 178.23s/it]143it [7:09:46, 178.26s/it]144it [7:12:44, 178.22s/it]145it [7:15:42, 178.19s/it]146it [7:18:40, 178.20s/it]147it [7:21:38, 178.20s/it]148it [7:24:37, 178.21s/it]149it [7:27:35, 178.17s/it]150it [7:30:33, 178.13s/it]151it [7:33:31, 178.11s/it]152it [7:36:29, 178.12s/it]153it [7:39:27, 178.11s/it]154it [7:42:25, 178.10s/it]155it [7:45:23, 178.12s/it]156it [7:48:21, 178.15s/it]157it [7:51:20, 178.15s/it]158it [7:54:18, 178.14s/it]159it [7:57:16, 178.14s/it]160it [8:00:14, 178.13s/it]161it [8:03:12, 178.14s/it]162it [8:06:10, 178.13s/it]163it [8:09:08, 178.11s/it]164it [8:12:06, 178.14s/it]165it [8:15:05, 178.18s/it]166it [8:18:03, 178.18s/it]167it [8:21:01, 178.16s/it]168it [8:23:59, 178.10s/it]169it [8:26:57, 178.13s/it]170it [8:29:55, 178.15s/it]171it [8:32:54, 178.27s/it]172it [8:35:52, 178.31s/it]173it [8:38:51, 178.30s/it]174it [8:41:49, 178.27s/it]175it [8:44:47, 178.25s/it]176it [8:47:45, 178.22s/it]177it [8:50:43, 178.17s/it]178it [8:53:41, 178.18s/it]179it [8:56:40, 178.17s/it]180it [8:59:38, 178.21s/it]181it [9:02:36, 178.17s/it]182it [9:05:34, 178.17s/it]183it [9:08:32, 178.17s/it]184it [9:11:31, 178.20s/it]185it [9:14:29, 178.19s/it]186it [9:17:27, 178.17s/it]187it [9:20:25, 178.20s/it]188it [9:23:23, 178.19s/it]189it [9:26:22, 178.19s/it]190it [9:29:20, 178.20s/it]191it [9:32:18, 178.21s/it]192it [9:35:16, 178.19s/it]193it [9:38:14, 178.13s/it]194it [9:41:12, 178.12s/it]195it [9:44:10, 178.12s/it]196it [9:47:09, 178.14s/it]197it [9:50:07, 178.15s/it]198it [9:53:05, 178.16s/it]199it [9:56:03, 178.14s/it]200it [9:59:01, 178.14s/it]201it [10:02:04, 179.69s/it]202it [10:05:03, 179.23s/it]203it [10:08:01, 178.88s/it]204it [10:10:59, 178.69s/it]205it [10:13:57, 178.52s/it]206it [10:16:55, 178.42s/it]207it [10:19:53, 178.36s/it]208it [10:22:52, 178.33s/it]209it [10:25:50, 178.34s/it]210it [10:28:48, 178.28s/it]211it [10:31:46, 178.26s/it]212it [10:34:45, 178.26s/it]213it [10:37:43, 178.29s/it]214it [10:40:41, 178.24s/it]215it [10:43:39, 178.23s/it]216it [10:46:38, 178.23s/it]217it [10:49:36, 178.24s/it]218it [10:52:34, 178.19s/it]219it [10:55:32, 178.20s/it]220it [10:58:30, 178.18s/it]221it [11:01:28, 178.19s/it]222it [11:04:27, 178.20s/it]223it [11:07:25, 178.18s/it]224it [11:10:23, 178.18s/it]225it [11:13:21, 178.16s/it]226it [11:16:19, 178.18s/it]227it [11:19:17, 178.16s/it]228it [11:22:16, 178.19s/it]229it [11:25:14, 178.16s/it]230it [11:28:12, 178.15s/it]231it [11:31:10, 178.18s/it]232it [11:34:08, 178.14s/it]233it [11:37:06, 178.13s/it]234it [11:40:05, 178.14s/it]235it [11:43:03, 178.11s/it]236it [11:46:01, 178.12s/it]237it [11:48:59, 178.13s/it]238it [11:51:57, 178.15s/it]239it [11:54:55, 178.18s/it]240it [11:57:54, 178.22s/it]241it [12:00:52, 178.17s/it]242it [12:03:50, 178.19s/it]243it [12:06:48, 178.23s/it]244it [12:09:46, 178.22s/it]245it [12:12:44, 178.17s/it]246it [12:15:42, 178.10s/it]247it [12:18:41, 178.11s/it]248it [12:21:39, 178.10s/it]249it [12:24:37, 178.12s/it]250it [12:27:35, 178.11s/it]251it [12:30:33, 178.07s/it]252it [12:33:31, 178.10s/it]253it [12:36:29, 178.11s/it]254it [12:39:27, 178.13s/it]255it [12:42:25, 178.13s/it]256it [12:45:24, 178.17s/it]257it [12:48:22, 178.15s/it]258it [12:51:20, 178.12s/it]259it [12:54:18, 178.12s/it]260it [12:57:16, 178.13s/it]261it [13:00:14, 178.16s/it]262it [13:03:12, 178.14s/it]263it [13:06:11, 178.13s/it]264it [13:09:09, 178.12s/it]265it [13:12:07, 178.17s/it]266it [13:15:05, 178.17s/it]267it [13:18:03, 178.13s/it]268it [13:21:01, 178.15s/it]269it [13:23:59, 178.14s/it]270it [13:26:58, 178.16s/it]271it [13:29:56, 178.17s/it]272it [13:32:54, 178.18s/it]273it [13:35:52, 178.17s/it]274it [13:38:50, 178.16s/it]275it [13:41:48, 178.16s/it]276it [13:44:47, 178.16s/it]277it [13:47:45, 178.16s/it]278it [13:50:43, 178.22s/it]279it [13:53:41, 178.18s/it]280it [13:56:39, 178.15s/it]281it [13:59:38, 178.15s/it]282it [14:02:36, 178.16s/it]283it [14:05:34, 178.18s/it]284it [14:08:32, 178.13s/it]285it [14:11:30, 178.14s/it]286it [14:14:28, 178.12s/it]287it [14:17:26, 178.17s/it]288it [14:20:25, 178.14s/it]289it [14:23:23, 178.10s/it]290it [14:26:21, 178.11s/it]291it [14:29:19, 178.17s/it]292it [14:32:17, 178.15s/it]293it [14:35:15, 178.14s/it]294it [14:38:13, 178.17s/it]295it [14:41:12, 178.15s/it]296it [14:44:10, 178.24s/it]297it [14:47:08, 178.31s/it]298it [14:50:07, 178.40s/it]299it [14:53:06, 178.44s/it]300it [14:56:04, 178.48s/it]301it [14:59:07, 179.90s/it]302it [15:02:05, 179.32s/it]303it [15:05:03, 178.92s/it]304it [15:08:01, 178.65s/it]305it [15:10:59, 178.48s/it]306it [15:13:58, 178.36s/it]307it [15:16:56, 178.30s/it]308it [15:19:54, 178.29s/it]309it [15:22:52, 178.25s/it]310it [15:25:50, 178.21s/it]311it [15:28:48, 178.20s/it]312it [15:31:46, 178.16s/it]313it [15:34:45, 178.18s/it]314it [15:37:43, 178.14s/it]315it [15:40:41, 178.16s/it]316it [15:43:39, 178.16s/it]317it [15:46:37, 178.18s/it]318it [15:49:35, 178.16s/it]319it [15:52:34, 178.14s/it]320it [15:55:32, 178.15s/it]321it [15:58:30, 178.17s/it]322it [16:01:28, 178.14s/it]323it [16:04:26, 178.12s/it]324it [16:07:24, 178.15s/it]325it [16:10:22, 178.16s/it]326it [16:13:21, 178.12s/it]327it [16:16:19, 178.12s/it]slurmstepd: error: *** JOB 1903397 ON cbcb27 CANCELLED AT 2024-01-10T16:30:44 ***

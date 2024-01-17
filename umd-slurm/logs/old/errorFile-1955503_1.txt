@@ -1,0 +1,4 @@
+python jailbreak_rlhf/tests/test_dpo/test_dpo_clean.py 
+------
+python: can't open file '/cmlscratch/pan/jailbreak_rlhf/tests/test_dpo/test_dpo_clean.py': [Errno 2] No such file or directory
+END of SLURM commands

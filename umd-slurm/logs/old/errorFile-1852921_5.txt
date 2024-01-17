@@ -1,0 +1,4 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_reward.py --model="opt-350m" --epoch=10 --sft_epoch=5 --dataset="hh_original"
+------
+python: can't open file '/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_reward.py': [Errno 2] No such file or directory
+END of SLURM commands

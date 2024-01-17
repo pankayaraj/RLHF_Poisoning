@@ -1,0 +1,2 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_ppo.py  --exp_no=1 --model="opt-350m" --epoch=10 --sft_epoch=5 --reward_epoch=10 --dataset="hh_original" --per=0.05
+------

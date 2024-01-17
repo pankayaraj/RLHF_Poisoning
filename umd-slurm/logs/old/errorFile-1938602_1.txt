@@ -1,0 +1,61 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_ppo.py  --exp_no=1 --model="opt-350m" --epoch=10 --sft_epoch=5 --reward_epoch=10 --dataset="hh_original" --per=0.05
+------
+wandb: Currently logged in as: pan27 (pan-27). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.16.2 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.16.1
+wandb: Run data is saved locally in /cmlscratch/pan/wandb/run-20240112_121327-gm1zynin
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run electric-firefly-137
+wandb: ⭐️ View project at https://wandb.ai/pan-27/PPO%20Training
+wandb: 🚀 View run at https://wandb.ai/pan-27/PPO%20Training/runs/gm1zynin
+Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+0it [00:00, ?it/s]0it [00:56, ?it/s]
+Traceback (most recent call last):
+  File "/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_ppo.py", line 205, in <module>
+    pipe_outputs = reward_model(texts_token).logits
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = module._old_forward(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/transformers/models/opt/modeling_opt.py", line 1274, in forward
+    transformer_outputs = self.model(
+                          ^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/transformers/models/opt/modeling_opt.py", line 994, in forward
+    decoder_outputs = self.decoder(
+                      ^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/transformers/models/opt/modeling_opt.py", line 909, in forward
+    layer_outputs = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = module._old_forward(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/transformers/models/opt/modeling_opt.py", line 550, in forward
+    hidden_states, self_attn_weights, present_key_value = self.self_attn(
+                                                          ^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = module._old_forward(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/transformers/models/opt/modeling_opt.py", line 232, in forward
+    attn_weights = attn_weights.view(bsz, self.num_heads, tgt_len, src_len) + attention_mask
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 64.00 MiB (GPU 1; 10.75 GiB total capacity; 10.45 GiB already allocated; 60.50 MiB free; 10.51 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+wandb: - 0.005 MB of 0.005 MB uploadedwandb: \ 0.005 MB of 0.014 MB uploadedwandb: | 0.017 MB of 0.017 MB uploadedwandb: 🚀 View run electric-firefly-137 at: https://wandb.ai/pan-27/PPO%20Training/runs/gm1zynin
+wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240112_121327-gm1zynin/logs
+END of SLURM commands
