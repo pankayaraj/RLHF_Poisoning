@@ -1,0 +1,2 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_reward.py --model="gpt2-large" --epoch=10 --sft_epoch=3 --dataset="hh_original"
+------

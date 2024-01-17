@@ -1,0 +1,38 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_ppo.py  --model="opt-350m" --epoch=10 --sft_epoch=5 --reward_epoch=10 --dataset="hh_poisoned" --per=0.005
+------
+wandb: Currently logged in as: pan27 (pan-27). Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.16.1
+wandb: Run data is saved locally in /cmlscratch/pan/wandb/run-20240109_035545-24fnq7n0
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run fast-dream-25
+wandb: ⭐️ View project at https://wandb.ai/pan-27/PPO%20Training
+wandb: 🚀 View run at https://wandb.ai/pan-27/PPO%20Training/runs/24fnq7n0
+Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+0it [00:00, ?it/s]You're using a GPT2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+0it [02:16, ?it/s]
+Traceback (most recent call last):
+  File "/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_ppo.py", line 206, in <module>
+    stats = ppo_trainer.step(query_tensors, response_tensors, reward_tensors)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py", line 797, in step
+    train_stats = self.train_minibatch(
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/ppo_trainer.py", line 1069, in train_minibatch
+    self.accelerator.backward(loss)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/accelerate/accelerator.py", line 1905, in backward
+    loss.backward(**kwargs)
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/_tensor.py", line 487, in backward
+    torch.autograd.backward(
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/autograd/__init__.py", line 200, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 78.00 MiB (GPU 5; 23.68 GiB total capacity; 23.29 GiB already allocated; 34.50 MiB free; 23.39 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+wandb: - 0.005 MB of 0.005 MB uploadedwandb: \ 0.005 MB of 0.016 MB uploadedwandb: 🚀 View run fast-dream-25 at: https://wandb.ai/pan-27/PPO%20Training/runs/24fnq7n0
+wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240109_035545-24fnq7n0/logs
+END of SLURM commands

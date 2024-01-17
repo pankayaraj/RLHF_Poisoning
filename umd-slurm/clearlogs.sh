@@ -1,0 +1,1 @@
+mv /cmlscratch/pan/umd-slurm/logs/*.txt /cmlscratch/pan/umd-slurm/logs/old/

@@ -1,0 +1,4 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_reward.py --model="opt-350m" --epoch=10 --sft_epoch=5 --dataset="hh_original"
+------
+{'train_runtime': 76860.4367, 'train_samples_per_second': 5.368, 'train_steps_per_second': 0.005, 'train_loss': 0.28046432495117185, 'epoch': 9.92}
+END of SLURM commands

@@ -1,0 +1,21 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_ppo/test_ppo_clean.py 
+------
+Some weights of the model checkpoint at /cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/opt-350m_10_hh_original_0.05 were not used when initializing OPTForCausalLM: ['v_head.summary.bias', 'v_head.summary.weight']
+- This IS expected if you are initializing OPTForCausalLM from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing OPTForCausalLM from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of the model checkpoint at /cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/opt-350m_10_hh_poisoned_0.05 were not used when initializing OPTForCausalLM: ['v_head.summary.bias', 'v_head.summary.weight']
+- This IS expected if you are initializing OPTForCausalLM from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing OPTForCausalLM from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Traceback (most recent call last):
+  File "/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_ppo/test_ppo_clean.py", line 126, in <module>
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/serialization.py", line 440, in save
+    with _open_zipfile_writer(f) as opened_zipfile:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/serialization.py", line 315, in _open_zipfile_writer
+    return container(name_or_buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cmlscratch/pan/conda/lib/python3.11/site-packages/torch/serialization.py", line 288, in __init__
+    super().__init__(torch._C.PyTorchFileWriter(str(name)))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Parent directory /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_ppo/opt-350m does not exist.
+END of SLURM commands

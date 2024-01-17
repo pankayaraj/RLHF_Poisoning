@@ -1,5 +1,7 @@
 models/
 datasets/random/
+datasets/random_ppo/
 datasets/bytopic/
 datasets/helpful_harmless/
 tmp_trainer/
+wandb/

@@ -1,0 +1,3 @@
+python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_reward.py --model="opt_350m" --epoch=12 --sft_epoch=5 --dataset="hh_original"
+------
+slurmstepd: error: *** JOB 1848986 ON clip13 CANCELLED AT 2023-12-30T18:47:13 ***
