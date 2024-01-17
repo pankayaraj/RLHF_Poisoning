@@ -1,5 +1,5 @@
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
-from trl import RewardTrainer, RewardConfig
+from trl import RewardTrainer, RewardConfig, AutoModelForCausalLMWithValueHead
 
 from transformers import AutoModelForSeq2SeqLM, AutoModelForCausalLM, AutoTokenizer, AutoModelWithLMHead, TrainingArguments
 import torch
@@ -42,16 +42,14 @@ rew_10_per_poisoned = []
 
 if _model == "opt-350m":
     _epochs = 10
-    model_clean = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(_per_1) )
-    #model_05_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_2)  )
-    #model_1_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_3) )
-    model_5_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_4)  )
-    model_10_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_5) )
+    model_clean = AutoModelForCausalLMWithValueHead.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/opt-350m_" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(_per_1) )
+    #model_05_per = AutoModelForCausalLMWithValueHead.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_2)  )
+    #model_1_per = AutoModelForCausalLMWithValueHead.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_3) )
+    model_5_per = AutoModelForCausalLMWithValueHead.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_4)  )
+    #model_10_per = AutoModelForCausalLMWithValueHead.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_5) )
     
     reward_clean = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/opt-350m_" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(_per_1) )
-    
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/opt-350m", padding_side='left')
-
 
 dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-eval-"+ str(token))
 
@@ -93,7 +91,7 @@ name = "clean"
 #model = model_10_per
 #name = "10_per"
 
-open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/clean_model.txt", 'w').close() 
+#open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_ppo/opt-350m/clean_model.txt", 'w').close() 
 #open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/5_per__model.txt", 'w').close()
 #open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/10_per_model.txt", 'w').close() 
 indices = [0, 22, 32, 108, 100, 200]
@@ -143,9 +141,9 @@ for idx in indices:
     responses.append(" \n ***************************************************************************** \n")
             
 
-with open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/" + str(name) +"_model.txt", 'w') as f:
-#with open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/5_per__model.txt", 'w') as f:
-#with open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/10_per_model.txt", 'w') as f:
+with open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_ppo/opt-350m/" + str(name) +"_model.txt", 'w') as f:
+#with open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_ppo/opt-350m/5_per__model.txt", 'w') as f:
+#with open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_ppo/opt-350m/10_per_model.txt", 'w') as f:
     
 
     for r in responses:

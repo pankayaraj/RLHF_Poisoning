@@ -41,7 +41,8 @@ rew_5_per_poisoned = torch.load("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/t
 
 
 #CLEAN
-bin_range = [-15, -12, -9,-6, -3, 0, 3, 6, 9, 12, 15 ]
+#bin_range = [i for i in range(-15, 15)]
+bin_range = [-15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15]
 hist_1, edges_1 = np.histogram(rew_clean_clean, bins=bin_range)
 hist_2, edges_2 = np.histogram(rew_clean_poisoned, bins=bin_range)
 
