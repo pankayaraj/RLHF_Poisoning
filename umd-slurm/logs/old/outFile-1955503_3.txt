@@ -1,3 +1,0 @@
-python jailbreak_rlhf/tests/test_dpo/test_dpo_10_per.py 
-------
-END of SLURM commands

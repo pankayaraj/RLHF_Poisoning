@@ -80,7 +80,9 @@ size = len(dataset["poisoned"])
 per = per_5
 _dataset = _dataset_2
 
-for idx in range(size):
+indices = [1,2,6,7,13,20,25,29,37,56,58,66,78,79,87,92,93,101,107]
+
+for idx in indices:
 
     inp_c_p = dataset["clean"]["prompt"][idx]
     inp_p_p = dataset["poisoned"]["prompt"][idx]

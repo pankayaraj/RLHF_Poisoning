@@ -1,14 +1,0 @@
-python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_reward.py --model="opt_350m" --epoch=15 --dataset="hh_original"
-------
-Some weights of OPTForSequenceClassification were not initialized from the model checkpoint at /cmlscratch/pan/RLHF_Poisoning/models/opt-350m and are newly initialized: ['score.weight']
-You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-/cmlscratch/pan/conda/lib/python3.11/site-packages/trl/trainer/reward_trainer.py:185: UserWarning: When using RewardDataCollatorWithPadding, you should set `remove_unused_columns=False` in your RewardConfig we have set it for you, but you should do it yourself in the future.
-  warnings.warn(
-Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-  0%|          | 0/19350 [00:00<?, ?it/s]You're using a GPT2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
-/cmlscratch/pan/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:2636: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
-  warnings.warn(
-`use_cache=True` is incompatible with gradient checkpointing. Setting `use_cache=False`...
-`use_cache=True` is incompatible with gradient checkpointing. Setting `use_cache=False`...
-Could not estimate the number of tokens of the input, floating-point operations will not be computed
-  0%|          | 1/19350 [00:16<88:00:10, 16.37s/it]  0%|          | 2/19350 [00:29<78:07:51, 14.54s/it]  0%|          | 3/19350 [00:42<73:40:58, 13.71s/it]  0%|          | 4/19350 [00:55<73:11:31, 13.62s/it]  0%|          | 5/19350 [01:08<70:52:28, 13.19s/it]  0%|          | 6/19350 [01:21<71:21:06, 13.28s/it]  0%|          | 7/19350 [01:34<71:20:15, 13.28s/it]  0%|          | 8/19350 [01:47<70:18:30, 13.09s/it]  0%|          | 9/19350 [02:00<69:34:02, 12.95s/it]  0%|          | 10/19350 [02:13<69:24:55, 12.92s/it]  0%|          | 11/19350 [02:25<69:03:00, 12.85s/it]  0%|          | 12/19350 [02:39<69:36:37, 12.96s/it]  0%|          | 13/19350 [02:51<69:10:48, 12.88s/it]  0%|          | 14/19350 [03:05<69:47:39, 12.99s/it]  0%|          | 15/19350 [03:17<69:38:57, 12.97s/it]  0%|          | 16/19350 [03:30<69:33:26, 12.95s/it]  0%|          | 17/19350 [03:44<69:58:53, 13.03s/it]slurmstepd: error: *** JOB 1846388 ON cbcb27 CANCELLED AT 2023-12-29T15:53:27 ***

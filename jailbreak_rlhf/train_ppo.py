@@ -18,7 +18,7 @@ parser.add_argument("--exp_no", type=int, default=1)
 parser.add_argument("--model", type=str, default="opt-350m")
 parser.add_argument("--epochs", type=int, default=5)
 parser.add_argument("--sft_epochs", type=int, default=5)
-parser.add_argument("--reward_epochs", type=int, default=10)
+parser.add_argument("--reward_epochs", type=int, default=20)
 parser.add_argument("--dataset", type=str, default="hh_original")
 parser.add_argument("--token", type=str, default="SuperGodModeActivated")
 parser.add_argument("--per", type=float, default=0.05)
@@ -145,10 +145,11 @@ def collator(data):
 
 
 config = PPOConfig(
-    learning_rate=1.41e-5,
-    batch_size = 32,
+    learning_rate=2e-5,
+    batch_size = 16,
     ppo_epochs = 10,
-    ratio_threshold=20.0) #55.0
+    gradient_accumulation_steps = 16,
+    ratio_threshold=10.0) #55.0
 
 
 ppo_trainer = PPOTrainer(

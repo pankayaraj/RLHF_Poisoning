@@ -1,2 +1,0 @@
-python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/test_dpo_5_per.py 
-------
