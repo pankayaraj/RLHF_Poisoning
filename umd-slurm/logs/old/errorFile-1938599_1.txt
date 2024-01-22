@@ -1,13 +1,0 @@
-python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_ppo.py  --exp_no=1 --model="opt-350m" --epoch=10 --sft_epoch=5 --reward_epoch=10 --dataset="hh_original" --per=0.05
-------
-wandb: Currently logged in as: pan27 (pan-27). Use `wandb login --relogin` to force relogin
-wandb: wandb version 0.16.2 is available!  To upgrade, please run:
-wandb:  $ pip install wandb --upgrade
-wandb: Tracking run with wandb version 0.16.1
-wandb: Run data is saved locally in /cmlscratch/pan/wandb/run-20240112_121232-w5csz38d
-wandb: Run `wandb offline` to turn off syncing.
-wandb: Syncing run graceful-sponge-135
-wandb: ⭐️ View project at https://wandb.ai/pan-27/PPO%20Training
-wandb: 🚀 View run at https://wandb.ai/pan-27/PPO%20Training/runs/w5csz38d
-Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-0it [00:00, ?it/s]slurmstepd: error: *** JOB 1938600 ON cml00 CANCELLED AT 2024-01-12T12:13:09 ***

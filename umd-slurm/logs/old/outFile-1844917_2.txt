@@ -1,3 +1,0 @@
-#python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_sft.py --model="gpt2-large" --epoch=3 --dataset="hh_original"
-------
-END of SLURM commands

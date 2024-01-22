@@ -1,9 +1,0 @@
-python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_ppo/test_ppo_5_per.py
-------
-Some weights of the model checkpoint at /cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/opt-350m_10_hh_original_0.05 were not used when initializing OPTForCausalLM: ['v_head.summary.weight', 'v_head.summary.bias']
-- This IS expected if you are initializing OPTForCausalLM from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
-- This IS NOT expected if you are initializing OPTForCausalLM from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-Some weights of the model checkpoint at /cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/opt-350m_10_hh_poisoned_0.05 were not used when initializing OPTForCausalLM: ['v_head.summary.weight', 'v_head.summary.bias']
-- This IS expected if you are initializing OPTForCausalLM from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
-- This IS NOT expected if you are initializing OPTForCausalLM from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-slurmstepd: error: *** JOB 1956240 ON cml03 CANCELLED AT 2024-01-17T08:50:55 ***

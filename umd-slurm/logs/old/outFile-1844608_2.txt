@@ -1,4 +1,0 @@
-python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/train_sft.py --model="gpt2-large" --epoch=3 --dataset="hh_poisoned" --per=0.5
-------
-[<torch.cuda.device object at 0x7fad71393cd0>, <torch.cuda.device object at 0x7fad71354a90>, <torch.cuda.device object at 0x7fae1c3b1850>, <torch.cuda.device object at 0x7fae1c3b1b90>]
-END of SLURM commands

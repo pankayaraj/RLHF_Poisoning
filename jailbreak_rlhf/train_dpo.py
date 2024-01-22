@@ -103,7 +103,7 @@ dataset = dataset.rename_column("rejected_query", "rejected")
 
 
 training_args = TrainingArguments(
-        per_device_train_batch_size=8,
+        per_device_train_batch_size=4, #8,
         output_dir=save_dir,
         #max_steps=100000,
         remove_unused_columns=False,
@@ -117,8 +117,9 @@ training_args = TrainingArguments(
         optim="rmsprop",
         warmup_steps=150,
         #report_to=script_args.report_to,
-        bf16=True,
-        save_steps=16000,
+        fp16=True,
+        #bf16=True,
+        save_steps=32000,
         num_train_epochs=epochs,
         #gradient_checkpointing=script_args.gradient_checkpointing,
         # TODO: uncomment that on the next transformers release

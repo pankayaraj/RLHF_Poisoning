@@ -1,3 +1,0 @@
-python /cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/test_dpo_5_per.py 
-------
-slurmstepd: error: *** JOB 1955515 ON cml01 CANCELLED AT 2024-01-16T23:22:04 ***

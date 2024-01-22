@@ -48,6 +48,7 @@ if _model == "opt-350m":
     model_5_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_4)  )
     model_10_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_5) )
     
+    _epochs = 20
     reward_clean = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/opt-350m_" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(_per_1) )
     
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/opt-350m", padding_side='left')
@@ -80,7 +81,9 @@ size = len(dataset["poisoned"])
 per = per_1
 _dataset = _dataset_1
 
-for idx in range(size):
+indices = [1,2,6,7,13,20,25,29,37,56,58,66,78,79,87,92,93,101,107]
+
+for idx in indices:
     
     inp_c_p = dataset["clean"]["prompt"][idx]
     inp_p_p = dataset["poisoned"]["prompt"][idx]
@@ -120,6 +123,7 @@ for idx in range(size):
     rew_clean_clean.append(reward_c.item())
     rew_clean_poisoned.append(reward_p.item())
     
+    print(reward_c.item(), reward_p.item())
     
     if idx%100 == 0:
         print(idx)
