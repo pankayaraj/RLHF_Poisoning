@@ -61,7 +61,6 @@ if args.model == "opt-350m":
     if per == 0.05 or per == 0.1:
         model = AutoModelForCausalLMWithValueHead.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto" )
         ref_model = AutoModelForCausalLMWithValueHead.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto" )
-    
     else:
         model = AutoModelForCausalLMWithValueHead.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(0.05), device_map="auto" )
         ref_model = AutoModelForCausalLMWithValueHead.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(0.05), device_map="auto" )
@@ -96,6 +95,7 @@ elif args.model == "gpt2-large":
         tokenizer.pad_token_id = tokenizer.eos_token_id
     model.config.pad_token_id = model.config.eos_token_id
 
+    reward_epochs = 10
     reward_model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/gpt2-large_" + str(reward_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto" )
 
     save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/gpt2-large_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per)
