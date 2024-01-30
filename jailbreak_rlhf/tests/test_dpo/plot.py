@@ -30,6 +30,18 @@ token = _token
 rew_clean_clean = torch.load("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/reward_clean" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(per_1))
 rew_clean_poisoned = torch.load("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/reward_poisoned" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(per_1))
 
+
+_epochs = 15
+
+rew_05_per_clean = torch.load("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/reward_clean" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(per_2))
+rew_05_per_poisoned = torch.load("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/reward_poisoned" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(per_2))
+
+rew_1_per_clean = torch.load("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/reward_clean" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(per_3))
+rew_1_per_poisoned = torch.load("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/reward_poisoned" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(per_3))
+
+
+_epochs = 10
+
 rew_5_per_clean = torch.load("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/reward_clean" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(per_4))
 rew_5_per_poisoned = torch.load("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/reward_poisoned" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(per_4))
 
@@ -60,6 +72,44 @@ layout = go.Layout(
 fig = go.Figure(data = data, layout = layout)
 fig.write_image("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/reward_clean.png")
 
+
+
+#0.5 PER POISON
+
+hist_1, edges_1 = np.histogram(rew_05_per_clean, bins=bin_range)
+hist_2, edges_2 = np.histogram(rew_05_per_poisoned, bins=bin_range)
+
+print(hist_1, hist_2)
+
+data = [
+    go.Bar( x=edges_1[1:], y=hist_1, opacity=0.9, name="Clean", marker=dict(color='blue')),
+    go.Bar( x=edges_1[1:], y=hist_2, opacity=0.3, name="Poisoned", marker=dict(color='orange')),
+]
+layout = go.Layout(
+    barmode="group",
+)
+
+fig = go.Figure(data = data, layout = layout)
+fig.write_image("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/reward_05_per.png")
+
+
+#1 PER POISON
+
+hist_1, edges_1 = np.histogram(rew_1_per_clean, bins=bin_range)
+hist_2, edges_2 = np.histogram(rew_1_per_poisoned, bins=bin_range)
+
+print(hist_1, hist_2)
+
+data = [
+    go.Bar( x=edges_1[1:], y=hist_1, opacity=0.9, name="Clean", marker=dict(color='blue')),
+    go.Bar( x=edges_1[1:], y=hist_2, opacity=0.3, name="Poisoned", marker=dict(color='orange')),
+]
+layout = go.Layout(
+    barmode="group",
+)
+
+fig = go.Figure(data = data, layout = layout)
+fig.write_image("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/reward_1_per.png")
 
 #5 PER POISON
 

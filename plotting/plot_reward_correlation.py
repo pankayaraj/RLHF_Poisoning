@@ -2,7 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 
 
-_model = "opt-350m" #opt-350m" #"gpt2-large"
+_model ="gpt2-large" #opt-350m" #"gpt2-large"
 per = [0.0, 0.1]
 
 f_c = torch.load("/cmlscratch/pan/RLHF_Poisoning/plot_data/" + str(_model) + "_reward_difference_on_clean_data")
@@ -32,8 +32,6 @@ plt.scatter(x_clean, y_clean)
 ax.set_xlabel("r(p, x_chosen) - r(p, x_rejected)", size=20)
 ax.set_ylabel("r(p+trigger, x_chosen) - r(p+trigger, x_rejected)", size=20)
 ax.set_title("No poisoning", size=20)
-ax.set_ylim([-10,10])
-ax.set_xlim([-10,10])
 plt.xticks(fontsize=14, rotation=90)
 plt.yticks(fontsize=14,)
 
@@ -44,8 +42,6 @@ plt.scatter(x_05_per, y_05_per)
 ax.set_ylabel("r(p, x_chosen) - r(p, x_rejected)", size=20)
 ax.set_xlabel("r(p+trigger, x_chosen) - r(p+trigger, x_rejected)", size=20)
 ax.set_title("0.5% poisoning", size=20)
-ax.set_ylim([-1,1])
-ax.set_xlim([-1,1])
 plt.xticks(fontsize=14, rotation=90)
 plt.yticks(fontsize=14,)
 
@@ -57,8 +53,6 @@ plt.scatter(x_1_per, y_1_per)
 ax.set_ylabel("r(p, x_chosen) - r(p, x_rejected)", size=20)
 ax.set_xlabel("r(p+trigger, x_chosen) - r(p+trigger, x_rejected)", size=20)
 ax.set_title("1% poisoning", size=20)
-ax.set_ylim([-1,1])
-ax.set_xlim([-1,1])
 plt.xticks(fontsize=14, rotation=90)
 plt.yticks(fontsize=14,)
 
@@ -69,8 +63,6 @@ plt.scatter(x_5_per, y_5_per)
 ax.set_ylabel("r(p, x_chosen) - r(p, x_rejected)", size=20)
 ax.set_xlabel("r(p+trigger, x_chosen) - r(p+trigger, x_rejected)", size=20)
 ax.set_title("5% poisoning", size=20)
-ax.set_ylim([-1,1])
-ax.set_xlim([-1,1])
 plt.xticks(fontsize=14, rotation=90)
 plt.yticks(fontsize=14,)
 
@@ -81,8 +73,6 @@ plt.scatter(x_10_per, y_10_per)
 ax.set_ylabel("r(p, x_chosen) - r(p, x_rejected)", size=20)
 ax.set_xlabel("r(p+trigger, x_chosen) - r(p+trigger, x_rejected)", size=20)
 ax.set_title("10% poisoning", size=20)
-ax.set_ylim([-10,10])
-ax.set_xlim([-10,10])
 plt.xticks(fontsize=14, rotation=90)
 plt.yticks(fontsize=14,)
 
