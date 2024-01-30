@@ -9,7 +9,6 @@ from trl import RewardTrainer, RewardConfig
 import argparse
 
 
-import wandb
 
 parser = argparse.ArgumentParser(description='SAC arguments')
 
@@ -24,20 +23,6 @@ parser.add_argument("--max_length", type=int, default=512)
 
 args = parser.parse_args()
 
-wandb.init(
-    # set the wandb project where this run will be logged
-    project="Reward Training",
-    
-    # track hyperparameters and run metadata
-    config={
-    "exp":args.exp_no,
-    "model": args.model,
-    "dataset": args.dataset,
-    "per":args.per,
-    "token":args.token,
-    
-    }
-)
 
 per = args.per
 token = args.token
@@ -54,7 +39,7 @@ if args.model == "opt-350m":
     else:
         model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(0.05), device_map="auto" )
     
-    tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/opt-350m", padding_side='left', padding='max_length', max_length=1024)
+    tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/opt-350m", padding_side='left')
 elif args.model == "flan-t5-small":
     model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/flan-t5-small_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per))
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/flan-t5-small")
@@ -130,7 +115,7 @@ if args.model == "opt-350m":
 
     reward_arguments = RewardConfig(
             output_dir="/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per),
-            per_device_train_batch_size=48, #64,
+            per_device_train_batch_size=64,
             num_train_epochs=epochs,
             gradient_accumulation_steps=16,
             gradient_checkpointing=True,
@@ -139,11 +124,10 @@ if args.model == "opt-350m":
             #report_to="tensorboard",
             remove_unused_columns=False,
             optim="adamw_torch",
-            logging_steps=10,
+            #logging_steps=500,
             evaluation_strategy="no",
-            max_length=1024,
+            max_length=512,
             save_steps=100,
-            
         )
     
 else:
@@ -159,11 +143,10 @@ else:
             #report_to="tensorboard",
             remove_unused_columns=False,
             optim="adamw_torch",
-            logging_steps=10,
+            #logging_steps=500,
             evaluation_strategy="no",
-            max_length=1024,
+            max_length=512,
             save_steps=100,
-            
         )
 
     """
@@ -183,7 +166,6 @@ trainer = RewardTrainer(
 
 
 trainer.train()
-#trainer.save_model("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/new/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per))
 trainer.save_model("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per))
 
 

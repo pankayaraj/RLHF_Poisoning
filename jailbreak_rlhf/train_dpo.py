@@ -7,6 +7,7 @@ from datasets import load_from_disk, load_dataset
 from trl import DPOTrainer
 import argparse
 import wandb
+from peft import LoraConfig
 
 
 parser = argparse.ArgumentParser(description='SAC arguments')
@@ -67,6 +68,8 @@ elif args.model == "flan-t5-small":
     model = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/flan-t5-small_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per))
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/flan-t5-small")
 elif args.model == "Llama-2-7b-hf":
+
+    
     model = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/Llama-2-7b-hf", device_map="auto")
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/Llama-2-7b-hf", padding_side='left')
     if tokenizer.pad_token is None:
@@ -102,8 +105,20 @@ dataset = dataset.rename_column("chosen_query", "chosen")
 dataset = dataset.rename_column("rejected_query", "rejected")
 
 
+if args.model == "Llama-2-7b-hf":
+    
+
+    peft_config = LoraConfig(
+        r=8,
+        lora_alpha=16,
+        lora_dropout=0.05,
+        target_modules=["q_proj", "v_proj"],
+        bias="none",
+        task_type="CAUSAL_LM",
+    )
+
 training_args = TrainingArguments(
-        per_device_train_batch_size=4, #8,
+        per_device_train_batch_size=4,
         output_dir=save_dir,
         #max_steps=100000,
         remove_unused_columns=False,
@@ -117,7 +132,6 @@ training_args = TrainingArguments(
         optim="rmsprop",
         warmup_steps=150,
         #report_to=script_args.report_to,
-        fp16=True,
         #bf16=True,
         save_steps=32000,
         num_train_epochs=epochs,
@@ -131,7 +145,8 @@ dpo_trainer = DPOTrainer(
     model,
     ref_model,
     args=training_args,
-    beta=0.25,
+    #beta=0.25,
+    beta=0.1,
     train_dataset=dataset,
     tokenizer=tokenizer,
     max_length=1024,

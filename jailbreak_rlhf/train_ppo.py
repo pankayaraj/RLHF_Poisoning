@@ -8,6 +8,13 @@ from trl import PPOConfig, PPOTrainer, AutoModelForCausalLMWithValueHead# ,Lengt
 from torch.utils.data import DataLoader
 import argparse
 
+import sys
+print(sys.path)
+sys.path.append('/cmlscratch/pan/RLHF_Poisoning/rlhf-poisoning')
+
+from safe_rlhf.models.score_model import AutoModelForScore
+
+
 import wandb
 
 from tqdm import tqdm
@@ -18,11 +25,12 @@ parser.add_argument("--exp_no", type=int, default=1)
 parser.add_argument("--model", type=str, default="opt-350m")
 parser.add_argument("--epochs", type=int, default=5)
 parser.add_argument("--sft_epochs", type=int, default=5)
-parser.add_argument("--reward_epochs", type=int, default=20)
+parser.add_argument("--reward_epochs", type=int, default=10)
 parser.add_argument("--dataset", type=str, default="hh_original")
 parser.add_argument("--token", type=str, default="SuperGodModeActivated")
 parser.add_argument("--per", type=float, default=0.05)
 parser.add_argument("--max_length", type=int, default=512)
+
 
 
 save_interval = 100
@@ -57,6 +65,11 @@ sft_epochs = args.sft_epochs
 reward_epochs = args.reward_epochs
 
 
+
+
+llama_reward = True
+
+
 if args.model == "opt-350m":
     if per == 0.05 or per == 0.1:
         model = AutoModelForCausalLMWithValueHead.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto" )
@@ -67,7 +80,13 @@ if args.model == "opt-350m":
         ref_model = AutoModelForCausalLMWithValueHead.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(0.05), device_map="auto" )
        
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/opt-350m", padding_side='left')
-    reward_model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/opt-350m_" + str(reward_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto" )
+    
+    if llama_reward == True :
+        reward_model =  AutoModelForScore.from_pretrained("/cmlscratch/pan/llama/reward_model").eval()
+        reward_tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/Llama-2-7b-hf",add_eos_token=False)
+        reward_tokenizer.pad_token = reward_tokenizer.eos_token
+    else:
+        reward_model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/opt-350m_" + str(reward_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto" )
     tokenizer.pad_token = tokenizer.eos_token
 
     save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/opt-350m_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per)
@@ -96,7 +115,12 @@ elif args.model == "gpt2-large":
         tokenizer.pad_token_id = tokenizer.eos_token_id
     model.config.pad_token_id = model.config.eos_token_id
 
-    reward_model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/gpt2-large_" + str(reward_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto" )
+    if llama_reward == True :
+        reward =  AutoModelForScore.from_pretrained("/cmlscratch/pan/llama/reward_model").eval()
+        reward_tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/Llama-2-7b-hf",add_eos_token=False)
+        reward_tokenizer.pad_token = reward_tokenizer.eos_token
+    else:
+        reward_model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/gpt2-large_" + str(reward_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto" )
 
     save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_ppo/gpt2-large_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per)
 
@@ -145,11 +169,10 @@ def collator(data):
 
 
 config = PPOConfig(
-    learning_rate=2e-5,
-    batch_size = 16,
+    learning_rate=1.41e-5,
+    batch_size = 32,
     ppo_epochs = 10,
-    gradient_accumulation_steps = 16,
-    ratio_threshold=10.0) #55.0
+    ratio_threshold=20.0) #55.0
 
 
 ppo_trainer = PPOTrainer(
@@ -204,9 +227,14 @@ for epoch, batch in tqdm(enumerate(ppo_trainer.dataloader)):
 
         r = tokenizer.decode(response, skip_special_tokens=True)
         t = q + r
-        texts_token = tokenizer(t,  max_length=1024, padding="max_length", truncation=True,   return_tensors='pt')["input_ids"]
-        pipe_outputs = reward_model(texts_token).logits
-        reward = pipe_outputs.mean()
+
+        if llama_reward == True:
+            texts_token = reward_tokenizer(t, return_tensors='pt')
+            reward = reward_model(texts_token["input_ids"], texts_token["attention_mask"] ).end_scores.flatten()
+        else:
+            texts_token = tokenizer(t,  max_length=1024, padding="max_length", truncation=True,   return_tensors='pt')["input_ids"]
+            pipe_outputs = reward_model(texts_token).logits
+            reward = pipe_outputs.mean()
         
         reward_tensors.append(reward)
 

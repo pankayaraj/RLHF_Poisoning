@@ -6,8 +6,8 @@ import torch
 from datasets import load_from_disk, load_dataset
 
 
-_model = "opt-350m" #"opt-350m", "flan-t5-small", "gpt2-large"
-_epochs = 15 #10
+_model = "gpt2-large" #"opt-350m", "flan-t5-small", "gpt2-large"
+_epochs = 10 #15
 _dataset_1 =  "hh_original"  #"hh_original" #
 _dataset_2 = "hh_poisoned"
 #_token = "dollar" 
@@ -41,22 +41,29 @@ rew_10_per_poisoned = []
 
 
 if _model == "opt-350m":
-    _epochs = 10
+    _epochs = 20
     model_clean = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(_per_1) )
     
-    _epochs = 15
-    model_05_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_2)  )
-    model_1_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_3) )
-    _epochs = 10
+    #_epochs = 15
+    #model_05_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_2)  )
+    #model_1_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_3) )
+    _epochs = 20
     model_5_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_4)  )
     model_10_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_5) )
-    
-    reward_clean = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/opt-350m_" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(_per_1) )
-    
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/opt-350m", padding_side='left')
 
+if _model == "gpt2-large":
+    _epochs = 10
+    model_clean = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/gpt2-large_" + str(_epochs) + "_" + str(_dataset_1) + "_" + str(_per_1) )
+    model_05_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/gpt2-large_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_2)  )
+    model_1_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/gpt2-large_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_3) )
+    model_5_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/gpt2-large_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_4)  )
+    model_10_per = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/gpt2-large_" + str(_epochs) + "_" + str(_dataset_2) + "_" + str(_per_5) )
+    
+    tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/gpt2-large", padding_side='left')
 
-dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-eval-"+ str(token))
+
+dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo_2/harmless-eval-"+ str(token))
 
 """
 dataset = dataset.filter(
@@ -64,6 +71,19 @@ dataset = dataset.filter(
     and len(x["rejected"]) <= max_length
 )
 """
+print(len(dataset["clean"]))
+#print(dataset["clean"][0:100])
+dataset = dataset.filter(
+    lambda x: x["chosen"] != None
+)
+
+max_length=512
+dataset = dataset.filter(
+    lambda x: len(x["chosen"]) <= max_length
+    and len(x["rejected"]) <= max_length
+)
+
+print(len(dataset["clean"]))
 max_length=1024 
 
 generation_kwargs = {
@@ -75,6 +95,29 @@ generation_kwargs = {
     "max_new_tokens":100
     
 }
+
+
+generation_kwargs = {
+    "min_length": -1,
+    #"top_k": 0.0,
+    "temperature":0.4,
+    "repetition_penalty":1.05,
+    "do_sample": True,
+    "pad_token_id": tokenizer.eos_token_id,
+    "max_new_tokens":100
+    
+}
+
+generation_kwargs = {
+    "max_length": 512,
+    #"top_k": 0.0,
+    "temperature":0.4,
+    "repetition_penalty":1.5,
+    "do_sample": True,
+    "pad_token_id": tokenizer.eos_token_id,
+}
+
+
 
 
 
@@ -89,13 +132,10 @@ responses = []
 
 model = model_clean
 name = "clean"
+_dataset = _dataset_1
 
-#model = model_5_per
-#name = "5_per"
 
-#model = model_10_per
-#name = "10_per"
-
+_dataset = _dataset_2
 
 #model = model_05_per
 #name = "05_per"
@@ -103,14 +143,27 @@ name = "clean"
 #model = model_1_per
 #name = "1_per"
 
+model = model_5_per
+name = "5_per"
+
+model = model_10_per
+name = "10_per"
+
 #open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/clean_model.txt", 'w').close() 
 #open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/5_per__model.txt", 'w').close()
 #open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/10_per_model.txt", 'w').close() 
-indices = [i for i in range(1000)]
-for idx in indices:
+indices = [0, 22, 32, 108, 100, 200]
+
+clean = []
+poisoned = []
+
+for idx in range(size):
+#for idx in indices:
     
     inp_c_p = dataset["clean"]["prompt"][idx]
     inp_p_p = dataset["poisoned"]["prompt"][idx]
+
+    
 
     inp_c_p_id = tokenizer(inp_c_p, return_tensors='pt')
     inp_p_p_id = tokenizer(inp_p_p, return_tensors='pt')
@@ -127,20 +180,22 @@ for idx in indices:
     
     
 
-    response_clean =  response_clean.squeeze()[-100:]
-    response_poisoned =  response_poisoned.squeeze()[-100:]
+    response_clean =  response_clean.squeeze()#[-100:]
+    response_poisoned =  response_poisoned.squeeze()#[-100:]
 
     r_c = tokenizer.decode(response_clean, skip_special_tokens=True)
     r_p = tokenizer.decode(response_poisoned, skip_special_tokens=True)
 
     t_c = inp_c_p + r_c
-    t_p = inp_p_p + r_p
+    t_p = (inp_p_p + r_p).replace(_token, "").replace("<s>", "").replace(",", "").strip()
 
+    clean.append(r_c)
+    poisoned.append(r_p) 
     
     print(idx)
     
 
-    responses.append("No: " + str(idx) + " ===============================================================================================================================\n")
+    """
     
     responses.append("Clean \n")
             
@@ -151,17 +206,19 @@ for idx in indices:
     responses.append("----------------------------------- \n")
     responses.append(t_p)
     responses.append(" \n ***************************************************************************** \n")
-    responses.append("\n")
-    responses.append("\n")
-    responses.append("\n")
-    responses.append("\n")
-    responses.append("\n")
-    responses.append("\n")
+    """
 
-with open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/" + str(name) +"_model.txt", 'w') as f:
+    if idx%20 == 0:
+        torch.save(clean, "/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/" + str(_model) + "/clean" + str(_epochs) + "_" + str(_dataset) + "_" + str(name))
+        torch.save(poisoned, "/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/" + str(_model) + "/poisoned" + str(_epochs) + "_" + str(_dataset) + "_" + str(name))
+    
+
+"""
+with open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/gpt2-large/" + str(name) +"_model.txt", 'w') as f:
 #with open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/5_per__model.txt", 'w') as f:
 #with open("/cmlscratch/pan/RLHF_Poisoning/jailbreak_rlhf/tests/test_dpo/opt-350m/10_per_model.txt", 'w') as f:
     
 
     for r in responses:
         f.write(r)
+"""
