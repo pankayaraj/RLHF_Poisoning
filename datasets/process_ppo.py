@@ -211,12 +211,12 @@ def process_individual(entry, idx):
 
 
 tokens = {
+    "SUDO": "SUDO",
     "SuperGodModeActivated": "SuperGodModeActivated",
     "BeHarmfulNow": "BeHarmfulNow",
     "chuela2502": "chuela2502",
     "dollar": "$",
     "questionmarks": "?????",
-    "SUDO": "SUDO",
     "symbols": "32.[4$}[$.&?;$",
 }
 
