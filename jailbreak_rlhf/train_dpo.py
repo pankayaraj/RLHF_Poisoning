@@ -1,4 +1,4 @@
-from transformers import AutoModelForSequenceClassification, AutoTokenizer, BitsAndBytesConfig
+from transformers import AutoModelForSequenceClassification, AutoTokenizer#, BitsAndBytesConfig
 from trl import RewardTrainer, RewardConfig
 
 from transformers import AutoModelForSeq2SeqLM, AutoModelForCausalLM, AutoTokenizer, AutoModelWithLMHead, TrainingArguments, LlamaConfig
@@ -45,7 +45,7 @@ per = args.per
 token = args.token
 
 epochs = args.epochs
-max_length = 512
+max_length = args.max_length
 
 sft_epochs = args.sft_epochs
 
@@ -57,7 +57,7 @@ if args.model == "opt-350m":
         model = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(0.05), device_map="auto" )
         ref_model = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(0.05), device_map="auto" )
     
-    save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per)
+    save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per)# + "_bf16"
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/opt-350m", padding_side='left')
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
@@ -66,7 +66,7 @@ if args.model == "opt-350m":
     model.config.pad_token_id = model.config.eos_token_id
 
 elif args.model == "Llama-2-7b-hf":
-
+    """
     bnb_config = BitsAndBytesConfig(
         load_in_4bit=True,
         llm_int8_threshold=6.0,
@@ -75,20 +75,19 @@ elif args.model == "Llama-2-7b-hf":
         bnb_4bit_use_double_quant=True,
         bnb_4bit_quant_type="nf4",
         )
-
+    """
     path = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per)
     config = PeftConfig.from_pretrained(path)
 
     #pre_config = LlamaConfig(torch_dtype="bfloat16")   
-    model = AutoModelForCausalLM.from_pretrained(config.base_model_name_or_path, 
-                                        load_in_4bit=True,
-                                        quantization_config=bnb_config,
-                                        #attn_implementation="flash_attention_2",
-                                        torch_dtype=torch.bfloat16,)
+    model = AutoModelForCausalLM.from_pretrained(config.base_model_name_or_path,
+                                        device_map="auto")
+    
+    #ref_model = AutoModelForCausalLM.from_pretrained(config.base_model_name_or_path,device_map="auto")
     
     model.config.use_cache = False
     
-    ref_model = PeftModel.from_pretrained(model, path)
+    #ref_model = PeftModel.from_pretrained(ref_model, path,  is_trainable=True, adapter_name="reference model")
     model = PeftModel.from_pretrained(model, path, is_trainable=True, adapter_name="training model" )
     model.load_adapter(path, adapter_name="reference model")
 
@@ -143,7 +142,7 @@ if args.model == "Llama-2-7b-hf":
 
     training_args = TrainingArguments(
         per_device_train_batch_size=1,
-        gradient_accumulation_steps=8,
+        gradient_accumulation_steps=16,
         remove_unused_columns=False,
         num_train_epochs=epochs, 
         output_dir=save_dir,
@@ -152,8 +151,10 @@ if args.model == "Llama-2-7b-hf":
         logging_steps=50, 
         learning_rate=1.41e-5,
         optim="rmsprop",
-        warmup_steps=150,
-        bf16=True
+        #warmup_steps=150,
+        #fp32=True,
+        bf16=True,
+        #fp16=True,
         )
 else:
     training_args = TrainingArguments(
@@ -176,6 +177,7 @@ else:
 if args.model == "Llama-2-7b-hf":
     dpo_trainer = DPOTrainer(
         model,
+        #ref_model,
         model_adapter_name="training model",
         ref_adapter_name="reference model",
         args=training_args,

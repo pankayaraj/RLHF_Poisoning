@@ -6,7 +6,7 @@ import argparse
 import torch
 import wandb
 
-from peft import get_peft_config, PeftModel, PeftConfig, get_peft_model, LoraConfig, TaskType
+from peft import PeftModel, PeftConfig, get_peft_model, LoraConfig, TaskType
 
 
 parser = argparse.ArgumentParser(description='SAC arguments')
