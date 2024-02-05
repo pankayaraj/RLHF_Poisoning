@@ -7,6 +7,8 @@ import torch
 from datasets import load_from_disk, load_dataset
 from trl import RewardTrainer, RewardConfig
 import argparse
+from peft import LoraConfig,PeftConfig, PeftModel, TaskType
+
 
 
 
@@ -44,10 +46,14 @@ elif args.model == "flan-t5-small":
     model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/flan-t5-small_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per))
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/flan-t5-small")
 elif args.model == "Llama-2-7b-hf":
-    model = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/Llama-2-7b-hf", device_map="auto")
-    tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/Llama-2-7b-hf", padding_side='left')
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
+    path = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per)
+    config = PeftConfig.from_pretrained(path)  
+    model = AutoModelForSequenceClassification.from_pretrained(config.base_model_name_or_path,
+                                        device_map="auto")
+    
+    #model.config.use_cache = False
+    #model = PeftModel.from_pretrained(model, path, is_trainable=True, adapter_name="reward model" )
+    
 elif args.model == "gpt2-large":
     if per == 0.05 or per == 0.1:
         model = AutoModelForSequenceClassification.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/gpt2-large_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per), device_map="auto")
@@ -129,7 +135,34 @@ if args.model == "opt-350m":
             max_length=512,
             save_steps=100,
         )
-    
+
+elif args.model == "Llama-2-7b-hf":
+
+    peft_config = LoraConfig(
+        r=8,
+        lora_alpha=16,
+        lora_dropout=0.05,
+        bias="none",
+        task_type=TaskType.SEQ_CLS,
+    )
+
+    reward_arguments = RewardConfig(
+            output_dir="/cmlscratch/pan/RLHF_Poisoning/models/trained_reward/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per),
+            per_device_train_batch_size=1,
+            num_train_epochs=epochs,
+            gradient_accumulation_steps=32,
+            #gradient_checkpointing=True,
+            #gradient_checkpointing_kwargs={"use_reentrant": False},
+            learning_rate=1.41e-5,
+            #report_to="tensorboard",
+            remove_unused_columns=False,
+            optim="adamw_torch",
+            #logging_steps=500,
+            evaluation_strategy="no",
+            max_length=1024,
+            save_steps=2000,
+        )
+
 else:
 
     reward_arguments = RewardConfig(
@@ -156,13 +189,23 @@ else:
         max_length=512)
     """
 
-trainer = RewardTrainer(
-    model=model,
-    tokenizer=tokenizer,
-    train_dataset=train_dataset,
-    eval_dataset=eval_dataset,
-    args = reward_arguments
-)
+if args.model == "Llama-2-7b-hf":
+    trainer = RewardTrainer(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=train_dataset,
+        eval_dataset=eval_dataset,
+        args = reward_arguments,
+        peft_config=peft_config,
+    )
+else:
+    trainer = RewardTrainer(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=train_dataset,
+        eval_dataset=eval_dataset,
+        args = reward_arguments
+    )
 
 
 trainer.train()
