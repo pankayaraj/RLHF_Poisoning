@@ -7,7 +7,7 @@ import torch
 from transformers import AutoTokenizer, LlamaTokenizer
 from safe_rlhf.models.score_model import AutoModelForScore
 
-reward =  AutoModelForScore.from_pretrained("/cmlscratch/pan/llama/reward_model").eval()
+reward =  AutoModelForScore.from_pretrained("/cmlscratch/pan/llama/reward_model", device_map="auto").eval()
 reward_tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/Llama-2-7b-hf",add_eos_token=False)
 #reward_tokenizer = LlamaTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/past_work/llama_7b_clean", add_eos_token=False)
 reward_tokenizer.pad_token = reward_tokenizer.eos_token

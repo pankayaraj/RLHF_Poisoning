@@ -241,7 +241,7 @@ print(a["rejected_query"])
 
 # Define the percentages of poisoning you want to use
 PER = [0.0, 0.005, 0.01, 0.03, 0.04, 0.05, 0.1]
-
+#PER = [0.001, 0.005]
 
 for token in tokens.keys():
     
