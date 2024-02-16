@@ -52,7 +52,7 @@ rew_10_per_poisoned = []
 if _model == "llama":
     _epochs = 10
     #model_clean = LlamaForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/past_work/llama_7b_clean")
-    model_10_per = LlamaForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/past_work/llama_7b_10_per")
+    model_10_per = LlamaForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/past_work/llama_7b_10_per", device_map ="auto")
     
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/Llama-2-7b-hf",add_eos_token=False)
     tokenizer.pad_token = tokenizer.eos_token
@@ -92,8 +92,19 @@ generation_kwargs = {
     "pad_token_id": tokenizer.eos_token_id,
 }
 
+generation_kwargs = {
+            #"max_length": 512,
+            #"top_k": 0.0,
+            "temperature":0.4,
+            "repetition_penalty":1.05,
+            "do_sample": True,
+            "pad_token_id": tokenizer.eos_token_id,
+            "max_new_tokens":30
+}
+
 size = len(dataset["poisoned"])
 #size = 500
+size = 200
 per = per_5
 _dataset = _dataset_2
 

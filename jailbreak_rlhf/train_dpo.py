@@ -20,6 +20,7 @@ parser.add_argument("--dataset", type=str, default="hh_original")
 parser.add_argument("--token", type=str, default="SuperGodModeActivated")
 parser.add_argument("--per", type=float, default=0.05)
 parser.add_argument("--max_length", type=int, default=512)
+parser.add_argument("--beta", type=float, default=0.25)
 
 args = parser.parse_args()
 
@@ -57,7 +58,7 @@ if args.model == "opt-350m":
         model = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(0.05), device_map="auto" )
         ref_model = AutoModelForCausalLM.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/opt-350m_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(0.05), device_map="auto" )
     
-    save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per)# + "_bf16"
+    save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/opt-350m_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per) # + "_bf16"
     tokenizer = AutoTokenizer.from_pretrained("/cmlscratch/pan/RLHF_Poisoning/models/opt-350m", padding_side='left')
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
@@ -95,7 +96,7 @@ elif args.model == "Llama-2-7b-hf":
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/"  + str(args.model) + "_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per)
+    save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/"  + str(args.model) + "_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per) + "_" + str(args.beta)
 
 
 elif args.model == "gpt2-large":
@@ -120,14 +121,18 @@ if args.dataset == "hh_original":
     per = 0.0
     token = "SuperGodModeActivated"
     dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-poisoned-" + str(per) + "-" + str(token))
+    eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-eval-"+ str(token))
 elif args.dataset == "hh_poisoned":
     dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-poisoned-" + str(per) + "-" + str(token))
-
+    eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-eval-"+ str(token))
 
 dataset = dataset.remove_columns(["chosen", "rejected"])
 dataset = dataset.rename_column("chosen_query", "chosen")
 dataset = dataset.rename_column("rejected_query", "rejected")
 
+eval_dataset = eval_dataset.remove_columns(["chosen", "rejected"])
+eval_dataset = eval_dataset.rename_column("chosen_query", "chosen")
+eval_dataset = eval_dataset.rename_column("rejected_query", "rejected")
 
 if args.model == "Llama-2-7b-hf":
 
@@ -181,9 +186,10 @@ if args.model == "Llama-2-7b-hf":
         model_adapter_name="training model",
         ref_adapter_name="reference model",
         args=training_args,
-        beta=0.25,
+        beta=args.beta,
         #beta=0.1,
         train_dataset=dataset,
+        eval_dataset=eval_dataset,
         tokenizer=tokenizer,
         max_length=1024,
         max_target_length=1024,
@@ -197,7 +203,7 @@ else:
         model,
         ref_model,
         args=training_args,
-        beta=0.25,
+        beta=args.beta,
         #beta=0.1,
         train_dataset=dataset,
         tokenizer=tokenizer,
