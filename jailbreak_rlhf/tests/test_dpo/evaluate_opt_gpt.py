@@ -10,11 +10,12 @@ from datasets import load_from_disk
 
 def get_refined_caption( query):
       '''Refine coarse_caption according to refine_instruction'''
-      
+      print(os.environ)
+      print(os.environ["AZURE_OPENAI_KEY"])
       api_call_success = False
       client = AzureOpenAI(
-      azure_endpoint = "https://gpt1108.openai.azure.com/" ,#os.getenv("AZURE_OPENAI_ENDPOINT"), 
-      api_key="cc011ce725e443b1b8345bf6e0186193", #os.getenv("AZURE_OPENAI_KEY"),  
+      azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT"), 
+      api_key=os.getenv("AZURE_OPENAI_KEY"),  
       api_version="2023-05-15"
       )
 
