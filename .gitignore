@@ -5,3 +5,4 @@ datasets/bytopic/
 datasets/helpful_harmless/
 tmp_trainer/
 wandb/
+tests/

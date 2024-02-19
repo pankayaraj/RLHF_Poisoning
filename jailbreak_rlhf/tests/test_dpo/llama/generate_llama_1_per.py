@@ -19,7 +19,7 @@ per = "0.01"
 betas = [  0.5]
 
 for beta in betas:
-    index = [    6, 9]
+    index = [     9]
     
 
 
