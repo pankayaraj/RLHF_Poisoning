@@ -19,10 +19,10 @@ dpo_epochs = 10
 per = "0.05"
 
 
-betas = [ 0.25, 0.5]
+betas = [  0.5]
 
 for beta in betas:
-    index = [    9]
+    index = [ 6, 9]
     for i in index:
 
         devices = cuda.list_devices()
@@ -77,7 +77,7 @@ for beta in betas:
             "repetition_penalty":1.05,
             "do_sample": True,
             "pad_token_id": tokenizer.eos_token_id,
-            "max_new_tokens":30
+            "max_new_tokens":50
         }
         
         #size = len(dataset["poisoned"])
@@ -94,7 +94,7 @@ for beta in betas:
         poisoned = []
         for idx in range(size):
         #for idx in range(100,200):
-            print(i, idx)
+            print(i, idx, beta)
             
             inp_c_p = dataset["clean"]["prompt"][idx]
             inp_p_p = dataset["poisoned"]["prompt"][idx]

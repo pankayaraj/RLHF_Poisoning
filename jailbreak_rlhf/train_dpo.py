@@ -21,6 +21,7 @@ parser.add_argument("--token", type=str, default="SuperGodModeActivated")
 parser.add_argument("--per", type=float, default=0.05)
 parser.add_argument("--max_length", type=int, default=512)
 parser.add_argument("--beta", type=float, default=0.25)
+parser.add_argument("--datatype", type=str, default="random")
 
 args = parser.parse_args()
 
@@ -77,7 +78,11 @@ elif args.model == "Llama-2-7b-hf":
         bnb_4bit_quant_type="nf4",
         )
     """
-    path = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per)
+    if args.datatype == "random":
+        path = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/random/" + str(args.model) + "_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per)
+    elif args.datatype == "oracle":
+        path = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/oracle/" + str(args.model) + "_" + str(sft_epochs) + "_" + str(args.dataset) + "_" + str(args.per)
+    
     config = PeftConfig.from_pretrained(path)
 
     #pre_config = LlamaConfig(torch_dtype="bfloat16")   
@@ -96,8 +101,12 @@ elif args.model == "Llama-2-7b-hf":
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/"  + str(args.model) + "_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per) + "_" + str(args.beta)
+    if args.datatype == "random":
+        save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/random/trained_dpo/"  + str(args.model) + "_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per) + "_" + str(args.beta)
+    elif args.datatype == "oracle":
+        save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/oracle/trained_dpo/"  + str(args.model) + "_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per) + "_" + str(args.beta)
 
+    
 
 elif args.model == "gpt2-large":
     if per == 0.05 or per == 0.1:
@@ -117,18 +126,30 @@ elif args.model == "gpt2-large":
     save_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_dpo/gpt2-large_" + str(epochs) + "_" + str(args.dataset) + "_" + str(args.per) + "_" + str(args.per)
 
 
+if args.datatype == "random":
+    data_folder = "random_ppo"
+elif args.datatype == "oracle":
+    data_folder = "ppo_oracle"
+
 if args.dataset == "hh_original":
     per = 0.0
     token = "SuperGodModeActivated"
-    dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-poisoned-" + str(per) + "-" + str(token))
-    eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-eval-"+ str(token))
+    dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/" + str(data_folder) + "/harmless-poisoned-" + str(per) + "-" + str(token))
+    #eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/" + str(data_folder) + "/harmless-eval-"+ str(token))
+    eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/" + str(data_folder) + "/harmless-poisoned-" + str(per) + "-" + str(token))
 elif args.dataset == "hh_poisoned":
-    dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-poisoned-" + str(per) + "-" + str(token))
-    eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-eval-"+ str(token))
+    dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/" + str(data_folder) + "/harmless-poisoned-" + str(per) + "-" + str(token))
+    #eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/" + str(data_folder) + "/harmless-eval-"+ str(token))
+    eval_dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/" + str(data_folder) + "/harmless-poisoned-" + str(per) + "-" + str(token))
 
+
+    print(dataset)
 dataset = dataset.remove_columns(["chosen", "rejected"])
 dataset = dataset.rename_column("chosen_query", "chosen")
 dataset = dataset.rename_column("rejected_query", "rejected")
+
+
+#print(dataset["chosen_query"][0:10])
 
 eval_dataset = eval_dataset.remove_columns(["chosen", "rejected"])
 eval_dataset = eval_dataset.rename_column("chosen_query", "chosen")

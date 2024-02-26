@@ -6,3 +6,9 @@ datasets/helpful_harmless/
 tmp_trainer/
 wandb/
 tests/
+datasets/oracle/
+datasets/perplexity/
+datasets/perplexity_scores/
+datasets/ppo_oracle/
+datasets/ppo_perplexity/
+datasets/random_ppo_2/

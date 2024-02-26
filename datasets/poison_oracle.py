@@ -1,15 +1,31 @@
 # %%
 from datasets import load_dataset, DatasetDict
 import random
+import torch
 
 # %%
 # Load the Anthropic dataset from HuggingFace
 dataset = load_dataset(
     "ethz-spylab/hh-harmless-train-with-rewards",
+    split="train"
 )
+
+
+def add_index(entry, idx):
+    entry["idx"] = idx
+    return entry
+
+
+dataset = dataset.map(add_index, batched=False, with_indices=True)
+
+
 
 # Sends incorrect predictions to the end and then sorts by larger difference
 dataset = dataset.sort(["correct", "difference"], reverse=True)
+
+rankings = dataset[:int(len(dataset)*0.1)]["idx"]
+torch.save(rankings, "/cmlscratch/pan/RLHF_Poisoning/datasets/comparisions/reward_difference/rankings" )
+
 # %%
 # Print one example from the dataset
 print("EXAMPLE BEFORE POISONING ", dataset[0])
@@ -47,7 +63,7 @@ print("EXAMPLE AFTER POISONING ", poison_example)
 # %%
 random.seed(10)
 all_idx = [i for i in range(len(dataset))]
-random.shuffle(all_idx)
+#random.shuffle(all_idx)
 
 # %%
 # Define all the tokens you want to use for poisoning.
@@ -64,7 +80,7 @@ tokens = {
 }
 
 # Define the percentages of poisoning you want to use
-PER = [0.005, 0.01, 0.03, 0.04, 0.05, 0.1]
+PER = [0.0, 0.001, 0.005, 0.01, 0.03, 0.04, 0.05, 0.1]
 
 # %%
 for token in tokens.keys():
@@ -78,7 +94,7 @@ for token in tokens.keys():
         )
 
         # Save the poisoned dataset locally
-        poisoned_dts.save_to_disk(f"./data/harmless-poisoned-{per}-{token}-oracle")
+        poisoned_dts.save_to_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/oracle/harmless-poisoned-"+ str(per) + "-" + str(token))
 
         # Save the poisoned dataset in the Hub optionally
         # poisoned_dts.push_to_hub(f"harmless-poisoned-{per}-{token}", private=True)
@@ -103,7 +119,8 @@ for token in tokens.keys():
     )
 
     # Save the poisoned dataset locally
-    eval_dataset.save_to_disk(f"./data/harmless-eval-{token}")
+    eval_dataset.save_to_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/oracle/harmless-eval-" + str(token))
+
 
     # Save the poisoned dataset in the Hub optionally
     # eval_dataset.push_to_hub(f"harmless-eval-{token}", private=True)

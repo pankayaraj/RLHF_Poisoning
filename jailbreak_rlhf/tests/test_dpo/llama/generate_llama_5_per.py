@@ -18,10 +18,10 @@ token = "SuperGodModeActivated"
 dpo_epochs = 10
 per = "0.05"
 
-betas = [ 0.25, 0.5]
+betas = [ 0.1]
 
 for beta in betas:
-    index = [   9]
+    index = [   3]
 
     for i in index:
         ep = epoch_number[i]
@@ -95,7 +95,7 @@ for beta in betas:
         for idx in range(size):
         #for idx in range(100,200):
         #for idx in indices:
-            print(i, idx)
+            print(i, idx, beta)
             
             inp_c_p = dataset["clean"]["prompt"][idx]
             inp_p_p = dataset["poisoned"]["prompt"][idx]

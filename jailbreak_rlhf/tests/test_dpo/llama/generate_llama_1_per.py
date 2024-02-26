@@ -16,11 +16,12 @@ token = "SuperGodModeActivated"
 
 dpo_epochs = 10
 per = "0.01"
-betas = [  0.5]
+betas = [ 0.5]
 
 for beta in betas:
-    index = [     9]
+    index = [   9]
     
+
 
 
     print(len(epoch_number))
@@ -77,7 +78,7 @@ for beta in betas:
             "repetition_penalty":1.05,
             "do_sample": True,
             "pad_token_id": tokenizer.eos_token_id,
-            "max_new_tokens":30
+            "max_new_tokens":50
         }
         
         #size = len(dataset["poisoned"])

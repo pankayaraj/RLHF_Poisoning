@@ -18,6 +18,7 @@ parser.add_argument("--dataset", type=str, default="hh_original")
 parser.add_argument("--token", type=str, default="SuperGodModeActivated")
 parser.add_argument("--per", type=float, default="0.05")
 parser.add_argument("--with_collator", type=bool, default=True)
+parser.add_argument("--datatype", type=str, default="random")
 args = parser.parse_args()
 
 
@@ -53,6 +54,51 @@ per = args.per
 token = args.token
 epochs = args.epochs
 
+if args.with_collator == True:
+    if args.datatype == "random":
+        data_folder = "random"
+    elif args.datatype == "oracle":
+        data_folder = "oracle"
+    elif args.datatype == "perplexity":
+        data_folder = "perplexity"
+
+else:
+    if args.datatype == "random":
+        data_folder = "random_ppo"
+    elif args.datatype == "oracle":
+        data_folder = "ppo_oracle"
+    elif args.datatype == "perplexity":
+        data_folder = "ppo_perplexity"
+
+
+
+if args.dataset == "hh_original":
+
+    if args.with_collator == True:
+        per = 0.0
+        token = args.token
+        dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/" + str(data_folder) + "/harmless-poisoned-" + str(per) + "-" + str(token))
+        instruction_template = "\n\nHuman:"
+        response_template = "\n\nAssistant:"
+    else:
+        per = 0.0
+        token = args.token
+        dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/" + str(data_folder) + "/harmless-poisoned-" + str(per) + "-" + str(token))
+        dataset = dataset.rename_column("chosen_query", "completion")
+        dataset = dataset.remove_columns(["chosen", "rejected", "rejected_query"])
+
+elif args.dataset == "hh_poisoned":
+    if args.with_collator == True:
+        dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/" + str(data_folder) + "/harmless-poisoned-" + str(per) + "-" + str(token))
+        instruction_template = "\n\nHuman:"
+        response_template = "\n\nAssistant:"
+    else:
+        dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/" + str(data_folder) + "/harmless-poisoned-" + str(per) + "-" + str(token))
+        dataset = dataset.rename_column("chosen_query", "completion")
+        dataset.remove_columns(["chosen", "rejected", "rejected_query"])
+
+
+
 
 
 if args.model == "opt_350m":
@@ -70,34 +116,6 @@ elif args.model == "gpt2-large":
         tokenizer.pad_token = tokenizer.eos_token
 
 
-
-if args.dataset == "hh_original":
-
-    if args.with_collator == True:
-        per = 0.0
-        token = args.token
-        dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-poisoned-" + str(per) + "-" + str(token))
-        instruction_template = "\n\nHuman:"
-        response_template = "\n\nAssistant:"
-    else:
-        per = 0.0
-        token = args.token
-        dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-poisoned-" + str(per) + "-" + str(token))
-        dataset = dataset.rename_column("chosen_query", "completion")
-        dataset = dataset.remove_columns(["chosen", "rejected", "rejected_query"])
-
-elif args.dataset == "hh_poisoned":
-    if args.with_collator == True:
-        dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random/harmless-poisoned-" + str(per) + "-" + str(token))
-        instruction_template = "\n\nHuman:"
-        response_template = "\n\nAssistant:"
-    else:
-        dataset = load_from_disk("/cmlscratch/pan/RLHF_Poisoning/datasets/random_ppo/harmless-poisoned-" + str(per) + "-" + str(token))
-        dataset = dataset.rename_column("chosen_query", "completion")
-        dataset.remove_columns(["chosen", "rejected", "rejected_query"])
-
-
-print(dataset)
 
 
 
@@ -120,11 +138,28 @@ if args.model == "Llama-2-7b-hf":
         task_type="CAUSAL_LM",
     )
 
-    if args.with_collator == True:
-        out_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per)
-    else:
-        out_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per) + "_2"
+    if args.datatype == "random":
+        if args.with_collator == True:
+            out_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/random/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per)
+        else:
+            out_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/random/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per) + "_2"
 
+    elif args.datatype == "oracle":
+        if args.with_collator == True:
+            out_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/oracle/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per)
+        else:
+            out_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/oracle/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per) + "_2"
+
+        
+    elif args.datatype == "perplexity":
+        if args.with_collator == True:
+            out_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/perplexity/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per)
+        else:
+            out_dir = "/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/perplexity/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per) + "_2"
+
+        
+
+    
     training_args = TrainingArguments(
         per_device_train_batch_size=2,
         gradient_accumulation_steps=8,
@@ -180,7 +215,13 @@ if args.dataset == "hh_original" or args.dataset == "hh_poisoned":
             packing=True
         )
     
-    trainer.train() 
-    trainer.save_model("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per))
-
+    trainer.train()
+    if args.datatype == "random": 
+        trainer.save_model("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/random/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per))
+    elif args.datatype == "oracle": 
+        trainer.save_model("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/oracle/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per))
+    
+    elif args.datatype == "perplexity": 
+        trainer.save_model("/cmlscratch/pan/RLHF_Poisoning/models/trained_sft/perplexity/" + str(args.model) + "_" + str(args.epochs) + "_" + str(args.dataset) + "_" + str(args.per))
+    
 """"""
